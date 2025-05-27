@@ -15,7 +15,7 @@ const ActiveLink = ({ title, destination, onClick }: IActiveLink) => {
   return (
     <Link href={destination} onClick={onClick} className="group">
       <li
-        className={`font-semibold text-gray-500 border-b-2 duration-300 border-transparent group-hover:border-sky-300 group-hover:text-gray-800 text-[20px] group-hover:-translate-y-[2px] ${
+        className={`font-semibold text-base sm:text-lg py-2 text-gray-500 border-b-2 duration-300 border-transparent group-hover:border-sky-300 group-hover:text-gray-800 text-[20px] group-hover:-translate-y-[2px] ${
           active && "border-sky-300"
         }`}
       >

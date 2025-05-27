@@ -5,13 +5,13 @@ import { MenuOutlined } from "@ant-design/icons";
 import { Button, Drawer } from "antd";
 import Image from "next/image";
 import Link from "next/link";
-import { useState} from "react";
+import { useState } from "react";
 import MainContainer from "../MainContainer/MainContainer";
 import ActiveLink from "./ActiveLink";
 import mail from "@/assets/mail.svg";
 import profile from "@/assets/profile.png";
 import DropdownModal from "./DropdownModal";
-import { usePathname } from 'next/navigation'; // Changed from useRouter
+import { usePathname } from 'next/navigation';
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -26,89 +26,123 @@ const navLinks = [
 
 const Navbar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const pathname = usePathname(); // Using usePathname instead of useRouter
+  const pathname = usePathname();
   const isHomePage = pathname === '/';
   const showDrawer = () => setDrawerVisible(true);
   const closeDrawer = () => setDrawerVisible(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   
   return (
-    <nav className={isHomePage ? 'bg-sky-50' : 'w-full py-5'}>
-      <MainContainer className="p-3 bg-sky-100 flex justify-between items-center rounded-lg">
-        <div>
-          <div className="size-[80px] relative mx-auto md:mx-0 rounded-full shadow-md shadow-sky-100" style={{ boxShadow: "0 0 15px rgb(119,196,254)" }}>
-            <Image fill src={logo} alt="logo" />
+    <nav className={isHomePage ? 'bg-sky-50' : 'w-full py-2 sm:py-3 md:py-4 lg:py-5'}>
+      <MainContainer className="p-2 sm:p-3 md:p-4 bg-sky-100 flex justify-between items-center rounded-lg">
+        {/* Logo - responsive sizing */}
+        <div className="flex items-center">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-20 xl:h-20 relative rounded-full shadow-md shadow-sky-100" style={{ boxShadow: "0 0 15px rgb(119,196,254)" }}>
+            <Image 
+              fill 
+              src={logo} 
+              alt="logo" 
+              className="object-contain p-1"
+              sizes="(max-width: 640px) 40px, (max-width: 768px) 48px, (max-width: 1024px) 56px, 64px"
+            />
           </div>
         </div>
 
-        {/* Desktop Navigation */}
-        <ul className="hidden md:flex justify-center text-white items-center gap-10">
+        {/* Desktop Navigation - hidden on mobile */}
+        <ul className="hidden lg:flex justify-center items-center gap-4 xl:gap-6 2xl:gap-8">
           {navLinks.map(({ label, href }) => (
             <ActiveLink key={label} title={label} destination={href} />
           ))}
         </ul>
 
-        <div className="flex items-center gap-3">
-          <div className="hidden md:block ">
+        {/* Tablet Navigation - hidden on mobile and desktop */}
+        <ul className="hidden md:flex lg:hidden justify-center items-center gap-3">
+          {navLinks.slice(0, 4).map(({ label, href }) => (
+            <ActiveLink key={label} title={label} destination={href} />
+          ))}
+        </ul>
+
+        {/* Right side buttons */}
+        <div className="flex items-center gap-1 sm:gap-2 md:gap-3">
+          {/* Book Now button - hidden on mobile, different sizes */}
+          <div className="hidden sm:block">
             <Link href={"/login"}>
-              <CustomButton className="bg-sky-300 text-lg">Book Now</CustomButton>
+              <CustomButton className="bg-sky-300 text-xs sm:text-sm md:text-base lg:text-lg">
+                Book Now
+              </CustomButton>
             </Link>
           </div>
+
+          {/* Mail button - responsive sizing */}
           <button
-            className=" bg-sky-200  text-sky-700 flex items-center p-3 rounded-full hover:bg-sky-300 transition-colors
-  "
+            className="bg-sky-200 text-sky-700 flex items-center p-1 sm:p-2 md:p-3 rounded-full hover:bg-sky-300 transition-colors"
             onClick={() => console.log("Mail clicked")}
           >
-      <Image
+            <Image
               src={mail}
-              alt="Profile"
-              width={24}
-              height={24}
-              className="rounded-full object-cover"
+              alt="Mail"
+              width={16}
+              height={16}
+              className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5"
             />
-
           </button>
 
+          {/* Profile button - responsive sizing */}
           <button
             className="rounded-full overflow-hidden border-2 border-transparent hover:border-sky-300 transition-all"
-             onClick={() => setIsModalOpen(true)}
+            onClick={() => setIsModalOpen(true)}
           >
             <Image
               src={profile}
               alt="Profile"
-              width={44}
-              height={44}
-              className="rounded-full object-cover"
+              width={28}
+              height={28}
+              className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-9 lg:h-9"
             />
           </button>
+
+          {/* Mobile menu button - visible on mobile and tablet */}
+          <Button
+            className="md:hidden ml-1 sm:ml-2"
+            type="text"
+            icon={<MenuOutlined className="text-base sm:text-lg" />}
+            onClick={showDrawer}
+          />
         </div>
-        {/* Mobile Drawer Button */}
-        <Button
-          className="md:hidden"
-          icon={<MenuOutlined />}
-          onClick={showDrawer}
-        />
-      <DropdownModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-        {/* Drawer for Mobile Navigation */}
+
+        <DropdownModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
+        {/* Mobile Drawer */}
         <Drawer
-          title="E Clinic"
+          title={
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 relative">
+                <Image src={logo} alt="Logo" fill className="object-contain" />
+              </div>
+              <span className="text-lg font-medium">Menu</span>
+            </div>
+          }
           placement="right"
           onClose={closeDrawer}
           open={drawerVisible}
+          width="85%"
+          className="[&_.ant-drawer-body]:pt-3"
         >
-          <ul className="flex flex-col items-start gap-4">
+          <ul className="flex flex-col gap-3 sm:gap-4">
             {navLinks.map(({ label, href }) => (
               <li key={label}>
                 <ActiveLink
                   title={label}
                   destination={href}
-                  onClick={closeDrawer} // Close drawer when link is clicked
+                  onClick={closeDrawer}
+            
+               
                 />
               </li>
             ))}
           </ul>
-          <div className="mt-4">
-            <CustomButton>Book Now</CustomButton>
+          <div className="mt-6">
+            <CustomButton className="w-full text-sm sm:text-base">Book Now</CustomButton>
           </div>
         </Drawer>
       </MainContainer>
