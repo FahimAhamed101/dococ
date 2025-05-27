@@ -11,7 +11,7 @@ interface CustomLoadingButtonProps {
 }
 
 const CustomLoadingButton: React.FC<CustomLoadingButtonProps> = ({
-  border = true,
+  border = false,
   loading = false,
   children,
   className = "",

@@ -79,10 +79,14 @@ const Blogs = () => {
     <section className="w-full px-5 py-10 ">
       <MainContainer>
         <CustomBreadcrumb items={breadcrumbItems} />
-        <div className="text-center my-5">
-          <h1 className="text-4xl font-semibold text-[#32526B]">Blogs</h1>
-          <h1>What Are People Saying About Us</h1>
-        </div>
+       <div className="flex flex-col items-center justify-center text-center my-5">
+  <div className="relative">
+    <h1 className="text-4xl font-semibold text-[#32526B] pb-2">Blogs</h1>
+    {/* Custom underline */}
+    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-[#77C4FE]"></div>
+  </div>
+  <h2 className="mt-4 text-xl text-gray-600">What Are People Saying About Us</h2>
+</div>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 py-10">
           {blogs.map((blog) => (
             <RecentBlogCard key={blog.id} blog={blog} />

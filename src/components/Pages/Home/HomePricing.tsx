@@ -16,7 +16,7 @@ const HomePricing = () => {
       {/* Pricing Cards */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
         {/* Free Plan */}
-        <div className="bg-sky-300  rounded-2xl text-white">
+        <div className="bg-[#77C4FE]  rounded-2xl text-white">
           <h2 className="text-4xl font-bold  py-7 text-center">Consultation</h2>
           <div className="border-b border-white"></div>
           <div className="flex gap-2 py-3 justify-center items-center ">
@@ -66,7 +66,7 @@ const HomePricing = () => {
         </div>
 
         {/* Standard Plan */}
-        <div className="bg-blue-200  rounded-2xl text-center text-gray-800">
+        <div className="bg-[#D5EDFF]  rounded-2xl text-center text-gray-800">
           <h2 className="text-4xl font-bold  py-7">Standard</h2>
           <div className="border-b border-white"></div>
           <div className="flex gap-2 py-3 justify-center items-center ">
@@ -114,7 +114,7 @@ const HomePricing = () => {
         </div>
 
         {/* Premium Plan */}
-        <div className="bg-blue-200   rounded-2xl text-gray-800">
+        <div className="bg-[#D5EDFF]   rounded-2xl text-gray-800">
           <h2 className="text-4xl font-bold  py-7 text-center">
             Premium
           </h2>

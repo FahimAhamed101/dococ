@@ -3,7 +3,7 @@ import MainContainer from "@/components/Shared/MainContainer/MainContainer";
 import CustomBreadcrumb from "@/components/UI/CustomBreadcrumb";
 import CustomInput from "@/components/UI/CustomInput";
 import CustomLoadingButton from "@/components/UI/CustomLoadingButton";
-import { HomeOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
+import { CloseOutlined, HomeOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import { Form } from "antd";
 import React from "react";
 import { } from "@ant-design/icons";
@@ -43,8 +43,8 @@ const ChatBot: React.FC = () => {
           Asking Your Question
         </h1>
         <div className="w-full py-8">
-          <div className="w-full  max-w-2xl mx-auto relative border px-8 py-14 bg-[#fff] rounded-xl border-sky-300">
-        <button className="absolute top-0 right-0 py-5 px-8 bg-rose-600 text-white  rounded-tr-xl rounded-bl-lg hover:bg-blue-600 transition-colors shadow-m">X</button>
+          <div className="w-full  max-w-2xl mx-auto relative border px-8 py-14 bg-sky-100 rounded-xl border-sky-300">
+        <button className="absolute top-0 right-0 py-4 px-6 bg-rose-600 text-white  rounded-tr-2xl rounded-bl-2xl hover:bg-blue-600 transition-colors shadow-m"><CloseOutlined /></button>
             <Form
               onFinish={handleSubmit}
               layout="vertical"
@@ -93,8 +93,8 @@ const ChatBot: React.FC = () => {
 
               {/* Submit Button */}
               <Form.Item className="">
-                <div className="mt-6 border-none">
-                  <CustomLoadingButton className="bg-sky-300 ">Start Chat</CustomLoadingButton>
+                <div className="mt-6 ">
+                  <CustomLoadingButton className="border-none bg-[#77C4FE] ">Start Chat</CustomLoadingButton>
                 </div>
               </Form.Item>
             </Form>
