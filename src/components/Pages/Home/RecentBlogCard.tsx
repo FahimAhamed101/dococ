@@ -15,7 +15,7 @@ interface RecentBlogCardProps {
 
 const RecentBlogCard = (blog: RecentBlogCardProps) => {
   return (
-    <div className="w-full bg-[#fff] p-5 rounded-xl shadow-lg">
+    <div className="w-full bg-[#F1F9FF] p-5 rounded-xl shadow-lg">
       {/* Blog Image */}
       <div className="w-full h-56 md:h-72 relative">
         <Image
@@ -60,7 +60,7 @@ const RecentBlogCard = (blog: RecentBlogCardProps) => {
         <p className="text-gray-700">{blog.blog.description}</p>
 
         {/* Read More Link */}
-        <Link href={`/blog/${blog.blog.id}`} className="text-primary font-semibold underline">
+        <Link href={`/blog/${blog.blog.id}`} className=" font-semibold underline">
           Read More
         </Link>
       </div>

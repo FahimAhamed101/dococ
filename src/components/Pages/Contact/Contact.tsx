@@ -198,7 +198,7 @@ const Contact: React.FC = () => {
 
               {/* Submit Button */}
               <Form.Item className="col-span-full">
-                <CustomLoadingButton>Submit</CustomLoadingButton>
+                <CustomLoadingButton >Submit</CustomLoadingButton>
               </Form.Item>
             </Form>
           </div>
