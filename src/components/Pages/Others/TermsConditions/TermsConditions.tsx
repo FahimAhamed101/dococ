@@ -17,7 +17,7 @@ const breadcrumbItems = [
 ];
 const TermsConditions = () => {
   return (
-    <section className="w-full px-5  py-10">
+    <section className="w-full px-5 bg-[#F1F9FF]  py-10">
       <MainContainer>
         <CustomBreadcrumb items={breadcrumbItems} />
         <div>

@@ -4,7 +4,7 @@ import MainContainer from "../MainContainer/MainContainer";
 
 const SubNavbar = () => {
   return (
-    <section className="w-full bg-sky-300 px-3 py-4 text-black">
+    <section className="w-full bg-[#77C4FE] px-3 py-4 text-black">
       <MainContainer className="flex flex-wrap items-center gap-8">
         <div className="flex items-center gap-3 font-medium">
           <IoMailUnread size={24} />

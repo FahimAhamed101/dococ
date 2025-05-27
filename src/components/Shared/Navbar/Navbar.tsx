@@ -34,13 +34,15 @@ const Navbar = () => {
   const isPricing  = pathname === '/pricing';
     const isFaq = pathname === '/faq';
      const iscontact = pathname === '/contact';
+       const isPrivacyPolicy = pathname === '/privacy-policy';
+          const isTermCondition = pathname === '/terms-conditions';
   return (
     <nav className={    isHomePage 
     ? 'bg-sky-50' 
     : isPricing 
       ? 'bg-[#F4FCF8]' 
       : isFaq 
-        ? 'bg-sky-50 pt-5' : iscontact ? 'bg-sky-50 pt-5' 
+        ? 'bg-sky-50 pt-5' : iscontact ? 'bg-sky-50 pt-5' : isTermCondition ? 'bg-sky-50 pt-5' : isPrivacyPolicy ? 'bg-sky-50 pt-5' 
         : 'w-full py-2 sm:py-3 md:py-4 lg:py-5'}>
       <MainContainer className="p-2 sm:p-3 md:p-4 bg-sky-100 flex justify-between items-center rounded-lg">
         {/* Logo - responsive sizing */}
