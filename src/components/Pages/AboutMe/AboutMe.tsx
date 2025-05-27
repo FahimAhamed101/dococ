@@ -1,6 +1,5 @@
 import circle from "@/assets/hero-section/circle.png";
 import profileImage from "@/assets/hero-section/nurse.png"; // Add your profile image path
-import MainContainer from "@/components/Shared/MainContainer/MainContainer";
 import CustomBreadcrumb from "@/components/UI/CustomBreadcrumb";
 import CustomButton from "@/components/UI/CustomButton";
 import { HomeOutlined } from "@ant-design/icons";
