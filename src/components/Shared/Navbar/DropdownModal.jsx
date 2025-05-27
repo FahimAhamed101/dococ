@@ -1,5 +1,5 @@
 "use client"
-import { MailOutlined, UserOutlined, CalendarOutlined, LockOutlined, LogoutOutlined } from "@ant-design/icons";
+import {  UserOutlined, CalendarOutlined, LockOutlined, LogoutOutlined } from "@ant-design/icons";
 
 
 export default function DropdownModal({ isOpen, onClose }) {

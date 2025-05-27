@@ -43,8 +43,8 @@ const ChatBot: React.FC = () => {
           Asking Your Question
         </h1>
         <div className="w-full py-8">
-          <div className="w-full  max-w-2xl mx-auto relative border px-8 py-14 bg-[#fff] rounded-xl border-secondary">
-        <button className="absolute top-0 right-0 py-5 px-8 bg-blue-500 text-white  rounded-tr-xl rounded-bl-lg hover:bg-blue-600 transition-colors shadow-m">X</button>
+          <div className="w-full  max-w-2xl mx-auto relative border px-8 py-14 bg-[#fff] rounded-xl border-sky-300">
+        <button className="absolute top-0 right-0 py-5 px-8 bg-rose-600 text-white  rounded-tr-xl rounded-bl-lg hover:bg-blue-600 transition-colors shadow-m">X</button>
             <Form
               onFinish={handleSubmit}
               layout="vertical"
@@ -92,9 +92,9 @@ const ChatBot: React.FC = () => {
               </Form.Item>
 
               {/* Submit Button */}
-              <Form.Item>
-                <div className="mt-6">
-                  <CustomLoadingButton>Start Chat</CustomLoadingButton>
+              <Form.Item className="">
+                <div className="mt-6 border-none">
+                  <CustomLoadingButton className="bg-sky-300 ">Start Chat</CustomLoadingButton>
                 </div>
               </Form.Item>
             </Form>

@@ -1,11 +1,11 @@
 "use client";
 import logo from "@/assets/logo/logo.png";
 import CustomButton from "@/components/UI/CustomButton";
-import { MenuOutlined, MailOutlined } from "@ant-design/icons";
+import { MenuOutlined } from "@ant-design/icons";
 import { Button, Drawer } from "antd";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import MainContainer from "../MainContainer/MainContainer";
 import ActiveLink from "./ActiveLink";
 import mail from "@/assets/mail.svg";
