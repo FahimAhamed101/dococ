@@ -7,7 +7,8 @@ import CustomInput from "@/components/UI/CustomInput";
 import CustomLoadingButton from "@/components/UI/CustomLoadingButton";
 import { ClockCircleOutlined, HomeOutlined } from "@ant-design/icons";
 import { Form, Radio, TimePicker } from "antd";
-
+import circle from "@/assets/circle.svg"
+import Image from "next/image";
 interface FormValues {
   name: string;
   email: string;
@@ -55,8 +56,11 @@ const bodyParts = [
   { label: "Eyes", value: "eyes" },
   { label: "Leg", value: "leg" },
 ];
-
-const PaidBookAppointment = () => {
+const Price = [
+  { label: "$5", value: "5" },
+ 
+];
+const BookAppointment = () => {
   const [form] = Form.useForm<FormValues>();
 
   const onFinish = (values: FormValues) => {
@@ -77,7 +81,17 @@ const PaidBookAppointment = () => {
         <CustomBreadcrumb items={breadcrumbItems} />
 
         <div className="w-full max-w-7xl mx-auto mt-10">
-          {/* Appointment Form */}
+          <div className="flex justify-end">
+             {/* Appointment Form */}   <Image
+              src={circle}
+              alt="circle"
+              className=""
+              width={150}
+              height={250}
+              objectFit="cover"
+            />
+          </div>
+         
           <h1 className="text-3xl font-semibold mb-8">Book Appointment</h1>
 
           <Form
@@ -140,7 +154,7 @@ const PaidBookAppointment = () => {
                 >
                   <TimePicker
                     placeholder="--:-- --"
-                    className="w-full border border-[#77C4FE] px-4 py-2 text-[16px] bg-secondary text-gray-700 rounded-lg focus:border-[#77C4FE]"
+                    className="w-full border border-[#77C4FE] px-4 py-2 text-[16px] bg-[#F1F9FF] text-gray-700 rounded-lg focus:border-[#77C4FE]"
                     format="HH:mm"
                     suffixIcon={
                       <ClockCircleOutlined style={{ color: "#77C4FE" }} />
@@ -150,10 +164,10 @@ const PaidBookAppointment = () => {
 
                 <Form.Item
                   name="preferredDate"
-                  label={<span className="text-lg">Preferred Date</span>}
+                  label={<span className="text-lg bg-[#F1F9FF]">Preferred Date</span>}
                   rules={[{ required: true, message: "Please select a date" }]}
                 >
-                  <CustomDatePicker />
+                  <CustomDatePicker className="bg-[#F1F9FF]" />
                 </Form.Item>
 
                 <Form.Item
@@ -181,9 +195,17 @@ const PaidBookAppointment = () => {
                 </Form.Item>
               </div>
               <div
-                className="w-full h-full flex justify-center items-center bg-cover bg-center order-1 md:order-2"
+                className="w-full relative h-full flex justify-center items-center bg-cover bg-center order-1 md:order-2"
                 style={{ backgroundImage: `url(${aboutBg.src})` }}
-              >
+              > <div className="absolute bottom-[59px] left-[117px]">
+             {/* Appointment Form */}   <Image
+              src={circle}
+              alt="circle"
+              className=""
+              width={80}
+              height={80}
+              objectFit="cover"
+            /></div>
                 <div className="space-y-3">
                   <div>
                     <h1 className="text-2xl">Contact Info</h1>
@@ -203,9 +225,10 @@ const PaidBookAppointment = () => {
                       123 Main St, City, State, Zip
                     </p>
                   </div>
-                </div>
+                </div> 
               </div>
             </div>
+            
             <Form.Item
               name="bodyPart"
               label={<span className="text-lg">Part of Body</span>}
@@ -220,9 +243,23 @@ const PaidBookAppointment = () => {
                 {renderRadioOptions(bodyParts)}
               </Radio.Group>
             </Form.Item>
+             <Form.Item
+              name="bodyPart"
+              label={<span className="text-lg">Per Consultation Rate</span>}
+              rules={[
+                {
+                  required: true,
+                  message: "Please select at least 1 Body part",
+                },
+              ]}
+            >
+              <Radio.Group className="flex flex-wrap gap-4">
+                {renderRadioOptions(Price)}
+              </Radio.Group>
+            </Form.Item>
             {/* Submit Button */}
             <Form.Item className="w-full md:w-[30%] mt-10">
-              <CustomLoadingButton border={false}>
+              <CustomLoadingButton className="bg-sky-300" border={false}>
                 Book Appointment
               </CustomLoadingButton>
             </Form.Item>
@@ -233,4 +270,4 @@ const PaidBookAppointment = () => {
   );
 };
 
-export default PaidBookAppointment;
+export default BookAppointment;
