@@ -54,10 +54,10 @@ const Contact: React.FC = () => {
         <div className="w-full flex flex-col md:flex-row gap-8 md:gap-16 my-16">
           {/* Left Section */}
           <div className="w-full md:w-[40%]">
-            <div className="bg-secondary p-10 rounded-2xl">
+            <div className="bg-[#D5EDFF] p-10 rounded-2xl">
               <div className="mb-16 flex gap-5">
-                <div className="bg-primary p-2 rounded-full size-14 flex justify-center items-center">
-                  <IoMdCall className="text-white" size={20} />
+                <div className="bg-[#77C4FE] p-2 rounded-full size-14 flex justify-center items-center">
+                  <IoMdCall  className="text-white" size={20} />
                 </div>
                 <div className="mt-2">
                   <h1 className="text-gray-800 text-xl font-semibold">
@@ -75,7 +75,7 @@ const Contact: React.FC = () => {
               </div>
               <div className="border-b border-[#929292] my-5"></div>
               <div className="mb-6 flex gap-5">
-                <div className="bg-primary p-2 rounded-full size-14 flex justify-center items-center">
+                <div className="bg-[#77C4FE] p-2 rounded-full size-14 flex justify-center items-center">
                   <IoMdMail className="text-white" size={20} />
                 </div>
                 <div className="mt-2">
@@ -109,14 +109,14 @@ const Contact: React.FC = () => {
               {/* First Name Input Wrapped in Form.Item */}
               <Form.Item
                 name="firstName"
-                label="First Name"
+                label="First Name" 
                 rules={[
                   { required: true, message: "Please input your first name!" },
                 ]}
               >
                 <CustomInput
                   icon={UserOutlined}
-                  placeholder="Enter your first name"
+                  placeholder="Enter your first name" className="bg-[#77C4FE]"
                 />
               </Form.Item>
 

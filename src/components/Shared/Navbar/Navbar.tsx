@@ -32,12 +32,16 @@ const Navbar = () => {
   const closeDrawer = () => setDrawerVisible(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isPricing  = pathname === '/pricing';
+    const isFaq = pathname === '/faq';
+     const iscontact = pathname === '/contact';
   return (
-    <nav className={  isHomePage 
+    <nav className={    isHomePage 
     ? 'bg-sky-50' 
     : isPricing 
-      ? 'bg-[#F4FCF8] w-full py-2 sm:py-3 md:py-4 lg:py-5' 
-      : 'w-full py-2 sm:py-3 md:py-4 lg:py-5'}>
+      ? 'bg-[#F4FCF8]' 
+      : isFaq 
+        ? 'bg-sky-50 pt-5' : iscontact ? 'bg-sky-50 pt-5' 
+        : 'w-full py-2 sm:py-3 md:py-4 lg:py-5'}>
       <MainContainer className="p-2 sm:p-3 md:p-4 bg-sky-100 flex justify-between items-center rounded-lg">
         {/* Logo - responsive sizing */}
         <div className="flex items-center">

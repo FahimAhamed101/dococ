@@ -46,11 +46,11 @@ const BlogDetails = (props: BlogDetailsProps) => {
             Blog Details
           </h1>
           <Image
-            width={300}
+            width={150}
             height={200}
             src={line}
             alt="line"
-            className="mx-auto"
+            className="mx-auto "
           />
           <p className="text-gray-900">What Are People Saying About Us</p>
         </div>

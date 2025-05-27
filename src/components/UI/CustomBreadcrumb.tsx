@@ -19,7 +19,7 @@ const CustomBreadcrumb: React.FC<CustomBreadcrumbProps> = ({ items }) => {
   }));
 
   return (
-    <Breadcrumb className="text-lg" items={breadcrumbItems} />
+    <Breadcrumb className="text-lg " items={breadcrumbItems} />
   );
 };
 

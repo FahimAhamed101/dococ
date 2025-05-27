@@ -31,16 +31,18 @@ interface MemberDetailsProps {
 const MemberDetails = ({ memberId }: MemberDetailsProps) => {
   console.log(memberId);
   return (
-    <section className="w-full px-5 py-10">
-      <MainContainer>
-        <CustomBreadcrumb items={breadcrumbItems} />
-        <div className="w-full hidden lg:block p-36 my-5 rounded-xl bg-secondary"></div>
+    <section className="w-full  py-10">
+
+      <div className="pl-[11.5rem] ">
+    <CustomBreadcrumb items={breadcrumbItems} />
+</div>
+        <div className="w-full hidden lg:block p-36 my-5  bg-[#F1F9FF]"></div>
         {/* Main content container */}
         <div className="w-full md:w-[80%] mx-auto flex flex-col lg:flex-row gap-20 mt-10">
           {/* Left Section (Doctor Image and Contact Info) */}
           <div className="w-full lg:w-1/3 rounded-xl">
             <div className="flex flex-col items-center">
-              <div className="w-full h-full max-w-[500px] mx-auto bg-primary flex justify-center relative rounded-xl px-5 py-8 -mt-0 lg:-mt-32">
+              <div className="w-full h-full max-w-[500px] mx-auto bg-[#C0E4FF] flex justify-center relative rounded-xl px-5 py-8 -mt-0 lg:-mt-32">
                 <img
                   src={circle.src}
                   alt=""
@@ -61,21 +63,21 @@ const MemberDetails = ({ memberId }: MemberDetailsProps) => {
                 <div className="flex space-x-3">
                   <Link
                     href={"/"}
-                    className="size-9 border border-secondary text-secondary rounded-full flex justify-center items-center hover:bg-[#6CB2E7] hover:text-white transition-all duration-300"
+                    className="size-9 bg-[#77C4FE] text-secondary rounded-full flex justify-center items-center hover:bg-[#6CB2E7] hover:text-white transition-all duration-300"
                   >
-                    <FiFacebook size={18} />
+                    <FiFacebook size={18} color="white" />
                   </Link>
                   <Link
                     href={"/"}
-                    className="size-9 border border-secondary text-secondary rounded-full flex justify-center items-center hover:bg-[#6CB2E7] hover:text-white transition-all duration-300"
+                    className="size-9 bg-[#77C4FE] text-secondary rounded-full flex justify-center items-center hover:bg-[#6CB2E7] hover:text-white transition-all duration-300"
                   >
-                    <FiLinkedin size={18} />
+                    <FiLinkedin size={18 } color="white"  />
                   </Link>
                   <Link
                     href={"/"}
-                    className="size-9 border border-secondary text-secondary rounded-full flex justify-center items-center hover:bg-[#6CB2E7] hover:text-white transition-all duration-300"
+                    className="size-9 bg-[#77C4FE]  text-secondary rounded-full flex justify-center items-center hover:bg-[#6CB2E7] hover:text-white transition-all duration-300"
                   >
-                    <FiTwitter size={18} />
+                    <FiTwitter size={18} className="" color="white" />
                   </Link>
                 </div>
               </div>
@@ -94,7 +96,7 @@ const MemberDetails = ({ memberId }: MemberDetailsProps) => {
           <div className="w-full md:w-[600px] mx-auto rounded-xl -mt-0 lg:-mt-56">
             <div className="space-y-16 text-[#274760]">
               {/* Header Section */}
-              <div className="space-y-4 text-[#fff]">
+              <div className="space-y-4 text-[#274760]">
                 <h1 className="text-4xl font-semibold">
                   Dr. Evans Onwubiko, MD, MPH, FAPA
                 </h1>
@@ -115,7 +117,7 @@ const MemberDetails = ({ memberId }: MemberDetailsProps) => {
                 </h3>
                 <ul className="space-y-4 px-6">
                   <li className="flex items-start gap-3">
-                    <span className="bg-primary w-2 h-2 mt-2 rounded-full inline-block"></span>
+                    <span className="bg-[#77C4FE] w-2 h-2 mt-2 rounded-full inline-block"></span>
                     <div>
                       <h1 className="text-xl font-semibold text-[#32526B]">
                         University of California, San Francisco
@@ -124,7 +126,7 @@ const MemberDetails = ({ memberId }: MemberDetailsProps) => {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="bg-primary w-2 h-2 mt-2 rounded-full inline-block"></span>
+                    <span className="bg-[#77C4FE] w-2 h-2 mt-2 rounded-full inline-block"></span>
                     <div>
                       <h1 className="text-xl font-semibold text-[#32526B]">
                         University of California, Los Angeles (UCLA) Medical
@@ -136,7 +138,7 @@ const MemberDetails = ({ memberId }: MemberDetailsProps) => {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="bg-primary w-2 h-2 mt-2 rounded-full inline-block"></span>
+                    <span className="bg-[#77C4FE] w-2 h-2 mt-2 rounded-full inline-block"></span>
                     <div>
                       <h1 className="text-xl font-semibold text-[#32526B]">
                         University of California, Berkeley
@@ -156,7 +158,7 @@ const MemberDetails = ({ memberId }: MemberDetailsProps) => {
                 </h3>
                 <ul className="space-y-4 px-6">
                   <li className="flex items-start gap-3">
-                    <span className="bg-primary w-2 h-2 mt-2 rounded-full inline-block"></span>
+                    <span className="bg-[#77C4FE] w-2 h-2 mt-2 rounded-full inline-block"></span>
                     <div>
                       <h1 className="font-semibold text-[#32526B]">
                         Community Mental Health Clinics
@@ -164,21 +166,21 @@ const MemberDetails = ({ memberId }: MemberDetailsProps) => {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="bg-primary w-2 h-2 mt-2 rounded-full inline-block"></span>
+                    <span className="bg-[#77C4FE] w-2 h-2 mt-2 rounded-full inline-block"></span>
                     <h1 className="font-semibold text-[#32526B]">
                       Worked in community mental health clinics, private
                       practice, and academic medical centers.
                     </h1>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="bg-primary w-2 h-2 mt-2 rounded-full inline-block"></span>
+                    <span className="bg-[#77C4FE] w-2 h-2 mt-2 rounded-full inline-block"></span>
                     <h1 className="font-semibold text-[#32526B]">
                       Expertise in the treatment of mood disorders, anxiety
                       disorders, and psychotic disorders.
                     </h1>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="bg-primary w-2 h-2 mt-2 rounded-full inline-block"></span>
+                    <span className="bg-[#77C4FE] w-2 h-2 mt-2 rounded-full inline-block"></span>
                     <h1 className="font-semibold text-[#32526B]">
                       Complex Case Management
                     </h1>
@@ -193,7 +195,7 @@ const MemberDetails = ({ memberId }: MemberDetailsProps) => {
                 </h3>
                 <ul className="space-y-4 px-6">
                   <li className="flex items-start gap-3">
-                    <span className="bg-primary w-2 h-2 mt-2 rounded-full inline-block"></span>
+                    <span className="bg-[#77C4FE] w-2 h-2 mt-2 rounded-full inline-block"></span>
                     <div>
                       <h1 className="text-xl font-semibold text-[#32526B]">
                         FAPA Fellow
@@ -201,7 +203,7 @@ const MemberDetails = ({ memberId }: MemberDetailsProps) => {
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="bg-primary w-2 h-2 mt-2 rounded-full inline-block"></span>
+                    <span className="bg-[#77C4FE] w-2 h-2 mt-2 rounded-full inline-block"></span>
                     <div>
                       <h1 className="text-xl font-semibold text-[#32526B]">
                         Research Contributions
@@ -213,7 +215,7 @@ const MemberDetails = ({ memberId }: MemberDetailsProps) => {
             </div>
           </div>
         </div>
-      </MainContainer>
+  
     </section>
   );
 };
