@@ -40,7 +40,7 @@ const Navbar = () => {
   const isTermCondition = pathname === "/terms-conditions";
   const isChangePassword = pathname === "/change-password";
   const isNotFound = pathname === "/notfound";
-
+  const isMessage = pathname === "/message";
   return (
     <nav
       className={
@@ -59,6 +59,8 @@ const Navbar = () => {
           : isPrivacyPolicy
           ? "bg-sky-50 pt-5"
           : isChangePassword
+          ? "bg-[#F1F9FF] pt-5"
+            : isMessage
           ? "bg-[#F1F9FF] pt-5"
           : "w-full py-2 sm:py-3 md:py-4 lg:py-5"
       }

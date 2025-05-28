@@ -3,6 +3,8 @@ import MainContainer from "@/components/Shared/MainContainer/MainContainer";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import notfound from "@/assets/sentmessage.svg"
+import file from "@/assets/file.svg"
 import {
   FiImage,
   FiLink,
@@ -90,9 +92,9 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ member }) => (
 
     {/* Chat Messages Area */}
     <div className="flex-1 p-4 overflow-y-auto">
-      <div className="space-y-4">
+      <div className="space-y-4 ">
         <MessageBubble
-          message="Hello, I’d like to book an appointment with Dr. Smith."
+          message="Lorem ipsum dolor sit amet consectetur. Enim non sit varius in volutpat amet nisl. Faucibus lacus elit faucibus tempus scelerisque. Sagittis Lorem ipsum dolor sit amet consectetur. Enim non sit varius in volutpat amet nisl. Faucibus lacus elit faucibus tempus scelerisque. Sagittis"
           sender="Patient"
           position="left"
         />
@@ -131,24 +133,24 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ member }) => (
     </div>
 
     {/* Message Input */}
-    <div className="p-4 bg-white rounded-xl">
-      <div className="flex items-center bg-white rounded-full border border-gray-300 px-4 py-2 shadow-sm">
-        <button className="text-gray-500 hover:text-blue-500 transition duration-200">
-          <FiSmile size={24} />
-        </button>
-        <input
+    <div className="p-4 bg-white rounded-xl">   <input
           type="text"
           placeholder="Send your message..."
           className="flex-1 px-4 py-2 text-gray-700 placeholder-gray-400 focus:outline-none rounded-full"
         />
+      <div className="flex justify-between items-center bg-white rounded-full border border-gray-300 px-4 py-2 shadow-sm">
+        <button className="text-gray-500 flex hover:text-blue-500 transition duration-200">
+          <FiSmile size={24} />      <Image src={file} alt="lock icon" width={20} height={16} />
+        </button>
+     
         <button className="text-gray-500 hover:text-blue-500 transition duration-200">
-          <FiImage size={24} />
+        <Image src={notfound} alt="lock icon" width={20} height={16} />
         </button>
-        <button className="text-gray-500 hover:text-blue-500 mx-2 transition duration-200">
-          <FiLink size={24} />
-        </button>
+      
       </div>
     </div>
+
+    
   </div>
 );
 
@@ -159,10 +161,10 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
 }) => (
   <div className={`flex ${position === "right" ? "justify-end" : ""}`}>
     <div
-      className={`max-w-xs md:max-w-md lg:max-w-lg p-3 rounded-lg shadow-sm ${
+      className={`max-w-[65rem] md:max-w-[65rem] lg:max-w-[75rem] p-3  rounded-lg shadow-sm ${
         position === "right"
-          ? "bg-primary text-black rounded-br-none"
-          : "bg-secondary text-gray-900 rounded-bl-none"
+          ? "bg-[#D5EDFF] text-black rounded-br-none"
+          : "bg-[#D5EDFF] text-gray-900 rounded-bl-none"
       }`}
     >
       <p className="text-sm">{message}</p>
