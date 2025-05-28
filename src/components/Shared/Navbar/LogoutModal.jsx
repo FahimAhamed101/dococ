@@ -1,5 +1,4 @@
 "use client"
-import {  UserOutlined, CalendarOutlined, LockOutlined, LogoutOutlined } from "@ant-design/icons";
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/UI/Dialog"
 export default function LogoutModal({ isOpen, onClose }) {
