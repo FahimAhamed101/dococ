@@ -40,9 +40,9 @@ const CustomInput: React.FC<
         />
       ) : isPassword ? (
         <Input.Password
-          prefix={Icon && <Icon className="  text-xl" />} // Dynamic icon
+          prefix={Icon && <Icon className="text-[#414141]  text-xl" />} // Dynamic icon
           placeholder={placeholder || "Enter password"} // Dynamic placeholder
-          className={`w-full border border-[#77C4FE] px-4 py-2 text-[16px]  text-gray-700 rounded-lg focus:border-[#77C4FE] ${className}`}
+          className={`w-full border bg-[#D5EDFF4D] border-[#77C4FE] px-4 py-2 text-[16px]  text-gray-700 rounded-lg focus:border-[#77C4FE] ${className}`}
           {...(rest as InputProps)} // Spread InputProps if isPassword
         />
       ) : (

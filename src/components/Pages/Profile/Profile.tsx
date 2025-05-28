@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Form, Upload, Button } from "antd";
-import { FileTextOutlined, UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined } from "@ant-design/icons";
 import { HiOutlineHome } from "react-icons/hi";
 import { IoCameraOutline } from "react-icons/io5";
 import CustomBreadcrumb from "@/components/UI/CustomBreadcrumb";
@@ -165,69 +165,6 @@ const ProfileForm: React.FC = () => {
             </div>
           </Form>
         </div>
-              <div className="max-w-4xl mx-auto p-6 space-y-6">
-      {/* Other documents section */}
-      <div>
-        <h2 className="text-lg font-medium mb-4">Other documents</h2>
-        <div className="flex gap-4 items-start">
-          <div className="flex-1 border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-gray-50/50">
-            <Upload className="w-8 h-8 text-blue-500 mx-auto mb-2" />
-            <p className="text-blue-500 font-medium">Upload file</p>
-          </div>
-          <Button className="bg-blue-500 hover:bg-blue-600 text-white px-6">Document Upload</Button>
-        </div>
-      </div>
-
-      {/* Appointment details card */}
-      <div className="border border-gray-200">
-        <div className="p-6">
-          {/* Header row with three columns */}
-          <div className="grid grid-cols-3 gap-6 mb-6">
-            <div>
-              <h3 className="font-medium text-gray-900 mb-1">Doctor Name</h3>
-              <p className="text-gray-600">Mr Evan</p>
-            </div>
-            <div>
-              <h3 className="font-medium text-gray-900 mb-1">Subject</h3>
-              <p className="text-gray-600">Cardiology</p>
-            </div>
-            <div>
-              <h3 className="font-medium text-gray-900 mb-1">Medical Name</h3>
-              <p className="text-gray-600">Ghana Medical College</p>
-            </div>
-          </div>
-
-          {/* Description section */}
-          <div className="mb-6">
-            <h3 className="font-medium text-gray-900 mb-2">Description</h3>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eros, nisi amet, aliquam in. Ut vulputate et
-              aliquam risus. Diam sed integer vulputate turpis in nec imperdiet lorem. Habitant sit lorem quis lorem
-              tempor scelerisque. Auctor et aliquam rhoncus id blandit sed in. Amet cursus rutrum adipiscing elit in
-              sed. A elit a orci eu urna mauris quis vitae risus. Tristique risus auctor tristique non ipsum
-              pellentesque aliquam. Ullamcorper mauris, mauris, mauris, mauris, mauris, mauris, mauris, mauris.
-            </p>
-          </div>
-
-          {/* Date section */}
-          <div className="mb-6">
-            <h3 className="font-medium text-gray-900 mb-2">Date</h3>
-            <p className="text-gray-600">10/3/2024 8:30 AM</p>
-          </div>
-
-          {/* Documents section */}
-          <div>
-            <h3 className="font-medium text-gray-900 mb-3">Documents</h3>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-gray-50/50">
-             
-
-              <FileTextOutlined className="w-8 h-8 text-blue-500 mx-auto mb-2"/>
-              <p className="text-blue-500 font-medium">Download file</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
       </MainContainer>
     </section>
   );
