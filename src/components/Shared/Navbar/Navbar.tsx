@@ -83,17 +83,20 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Mail button - responsive sizing */}
+          {/* Mail button - FIXED responsive sizing */}
           <button
-            className="bg-sky-200 text-sky-700 flex items-center p-1 sm:p-2 md:p-3 rounded-full hover:bg-sky-300 transition-colors"
+            className="bg-sky-200 text-sky-700 flex flex-col justify-center items-center 
+              p-1 xs:p-1.5 sm:p-1.5 md:p-2  // Responsive padding
+              rounded-full hover:bg-sky-300 transition-colors"
             onClick={() => console.log("Mail clicked")}
+            aria-label="Contact us"
           >
             <Image
               src={mail}
               alt="Mail"
               width={16}
               height={16}
-              className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5"
+              className="w-6 h-6 xs:w-4 xs:h-4 sm:w-4 sm:h-4 md:w-6 md:h-6"  // Better size progression
             />
           </button>
 
@@ -145,8 +148,6 @@ const Navbar = () => {
                   title={label}
                   destination={href}
                   onClick={closeDrawer}
-            
-               
                 />
               </li>
             ))}

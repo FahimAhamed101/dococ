@@ -24,29 +24,31 @@ const HeroSection = () => {
             services to help you live a healthy and happy life.
           </p>
           {/* Appointment button */}
-           <div className="flex items-center gap-3">
-          <div className="space-x-5">
-            <CustomButton className="bg-sky-300 text-lg">Book an appointment</CustomButton>
-          </div>
-          <div
-            className=" flex items-center p-3 
-  "
-            
-          >
-      <Image
+       <div className="flex items-center gap-6">
+      <CustomButton className="bg-sky-400 hover:bg-sky-500 text-white px-8 py-2 text-base font-medium" >
+        Book an appointment
+      </CustomButton>
+
+     
+        <div className="flex items-center p-2 ">
+          <Image
               src={call}
               alt="Profile"
-              width={64}
-              height={64}
+              width={50}
+              height={20}
               className=" object-cover"
-            /><div className="flex flex-col p-2">
-              <p className="text-lg">24H Emergency</p>
-<span>0900-78601</span>
-            </div>
-
-          </div>
-          </div>
+            />
         </div>
+        <div className="text-sm">
+          <div className="font-semibold text-gray-900">24H Emergency</div>
+          <div className="text-gray-600">0900-78601</div>
+      
+      </div>
+    </div>
+   
+       
+          </div>
+   
 
         {/* Right side: Nurse image with circle background */}
         {/* <div className="hidden md:block">

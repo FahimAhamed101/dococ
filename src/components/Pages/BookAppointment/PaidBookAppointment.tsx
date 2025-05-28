@@ -265,6 +265,7 @@ const BookAppointment = () => {
             </Form.Item>
           </Form>
         </div>
+   
       </MainContainer>
     </section>
   );
