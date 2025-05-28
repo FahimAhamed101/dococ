@@ -11,7 +11,8 @@ import ActiveLink from "./ActiveLink";
 import mail from "@/assets/mail.svg";
 import profile from "@/assets/profile.png";
 import DropdownModal from "./DropdownModal";
-import { usePathname } from 'next/navigation';
+import LogoutModal from "./LogoutModal"; // Added import for LogoutModal
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -27,33 +28,52 @@ const navLinks = [
 const Navbar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const pathname = usePathname();
-  const isHomePage = pathname === '/';
+  const isHomePage = pathname === "/";
   const showDrawer = () => setDrawerVisible(true);
   const closeDrawer = () => setDrawerVisible(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const isPricing  = pathname === '/pricing';
-    const isFaq = pathname === '/faq';
-     const iscontact = pathname === '/contact';
-       const isPrivacyPolicy = pathname === '/privacy-policy';
-          const isTermCondition = pathname === '/terms-conditions';
-             const isChangePassword = pathname === '/change-password';
-               const isNotFound = pathname === '/notfound';
+  const [isModalLogoutOpen, setIsLogoutModalOpen] = useState(false);
+  const isPricing = pathname === "/pricing";
+  const isFaq = pathname === "/faq";
+  const isContact = pathname === "/contact";
+  const isPrivacyPolicy = pathname === "/privacy-policy";
+  const isTermCondition = pathname === "/terms-conditions";
+  const isChangePassword = pathname === "/change-password";
+  const isNotFound = pathname === "/notfound";
+
   return (
-    <nav className={    isHomePage 
-    ? 'bg-sky-50' 
-    : isPricing 
-      ? 'bg-[#F4FCF8]' 
-      : isFaq 
-        ? 'bg-sky-50 pt-5' : iscontact ? 'bg-sky-50 pt-5' :isNotFound ? 'bg-[#F1F9FF] pt-5' : isTermCondition ? 'bg-sky-50 pt-5' : isPrivacyPolicy ? 'bg-sky-50 pt-5' : isChangePassword ? 'bg-[#F1F9FF] pt-5'
-        : 'w-full py-2 sm:py-3 md:py-4 lg:py-5'}>
+    <nav
+      className={
+        isHomePage
+          ? "bg-sky-50"
+          : isPricing
+          ? "bg-[#F4FCF8]"
+          : isFaq
+          ? "bg-sky-50 pt-5"
+          : isContact
+          ? "bg-sky-50 pt-5"
+          : isNotFound
+          ? "bg-[#F1F9FF] pt-5"
+          : isTermCondition
+          ? "bg-sky-50 pt-5"
+          : isPrivacyPolicy
+          ? "bg-sky-50 pt-5"
+          : isChangePassword
+          ? "bg-[#F1F9FF] pt-5"
+          : "w-full py-2 sm:py-3 md:py-4 lg:py-5"
+      }
+    >
       <MainContainer className="p-2 sm:p-3 md:p-4 bg-sky-100 flex justify-between items-center rounded-lg">
         {/* Logo - responsive sizing */}
         <div className="flex items-center">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-20 xl:h-20 relative rounded-full shadow-md shadow-sky-100" style={{ boxShadow: "0 0 15px rgb(119,196,254)" }}>
-            <Image 
-              fill 
-              src={logo} 
-              alt="logo" 
+          <div
+            className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-20 xl:h-20 relative rounded-full shadow-md shadow-sky-100"
+            style={{ boxShadow: "0 0 15px rgb(119,196,254)" }}
+          >
+            <Image
+              fill
+              src={logo}
+              alt="logo"
               className="object-contain p-1"
               sizes="(max-width: 640px) 40px, (max-width: 768px) 48px, (max-width: 1024px) 56px, 64px"
             />
@@ -85,11 +105,9 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Mail button - FIXED responsive sizing */}
+          {/* Mail button - responsive sizing */}
           <button
-            className="bg-sky-200 text-sky-700 flex flex-col justify-center items-center 
-              p-1 xs:p-1.5 sm:p-1.5 md:p-2  // Responsive padding
-              rounded-full hover:bg-sky-300 transition-colors"
+            className="bg-sky-200 text-sky-700 flex flex-col justify-center items-center p-1 xs:p-1.5 sm:p-1.5 md:p-2 rounded-full hover:bg-sky-300 transition-colors"
             onClick={() => console.log("Mail clicked")}
             aria-label="Contact us"
           >
@@ -98,7 +116,7 @@ const Navbar = () => {
               alt="Mail"
               width={16}
               height={16}
-              className="w-6 h-6 xs:w-4 xs:h-4 sm:w-4 sm:h-4 md:w-6 md:h-6"  // Better size progression
+              className="w-6 h-6 xs:w-4 xs:h-4 sm:w-4 sm:h-4 md:w-6 md:h-6"
             />
           </button>
 
@@ -125,7 +143,15 @@ const Navbar = () => {
           />
         </div>
 
-        <DropdownModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        <DropdownModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          setIsLogoutModalOpen={setIsLogoutModalOpen}
+        />
+        <LogoutModal
+          isOpen={isModalLogoutOpen}
+          onClose={() => setIsLogoutModalOpen(false)}
+        />
 
         {/* Mobile Drawer */}
         <Drawer
@@ -155,7 +181,9 @@ const Navbar = () => {
             ))}
           </ul>
           <div className="mt-6">
-            <CustomButton className="w-full text-sm sm:text-base">Book Now</CustomButton>
+            <CustomButton className="w-full text-sm sm:text-base">
+              Book Now
+            </CustomButton>
           </div>
         </Drawer>
       </MainContainer>

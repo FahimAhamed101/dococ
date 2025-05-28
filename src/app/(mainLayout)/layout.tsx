@@ -12,6 +12,7 @@ const MainLayout = ({ children }: IChildren) => {
       <Header />
       {children}
       <Toaster richColors position="top-center" />
+      
       <Footer />
     </main>
   );
