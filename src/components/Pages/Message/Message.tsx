@@ -7,7 +7,7 @@ import notfound from "@/assets/sentmessage.svg"
 import file from "@/assets/file.svg"
 import {
   FiImage,
-  FiLink,
+
   FiMoreVertical,
   FiPhone,
   FiSmile,
