@@ -44,7 +44,7 @@ const Prescription: React.FC = () => {
                 className="min-w-[250px] bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full"
               >
                 {/* Header */}
-                <div className="bg-gradient-to-r from-blue-400 to-blue-500 px-4 py-3 flex justify-between items-center">
+                <div className="bg-[#77C4FE] px-4 py-4 flex justify-between items-center">
                   <div className="text-white">
                     <h1 className="text-xl font-bold">e-Clinic</h1>
                     <p className="text-xs opacity-90">Specialist healthcare</p>

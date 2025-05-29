@@ -12,7 +12,6 @@ import CustomInput from "@/components/UI/CustomInput";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 
-// Define the form values interface
 interface LoginFormValues {
   email: string;
   password: string;
@@ -22,10 +21,8 @@ interface LoginFormValues {
 const Login: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
-  // Handle form submission
   const onFinish = (values: LoginFormValues) => {
     setLoading(true);
-    // Simulate a network request
     setTimeout(() => {
       console.log("Received values from form: ", values);
       setLoading(false);
@@ -33,26 +30,23 @@ const Login: React.FC = () => {
   };
 
   return (
-    <section className="w-full h-full lg:h-screen flex justify-between items-center p-5">
-      {/* Main container */}
-      <MainContainer>
-        <div className="size-[80px] relative mx-auto md:mx-0 mb-5">
-          <Image fill src={logo} alt="logo" />
-        </div>
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-          {/* Left side: Form */}
-          <div className="order-last md:order-first">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-semibold">Welcome back!</h2>
-              <p className="text-gray-500">Please enter your details</p>
+    <section className="w-full min-h-screen bg-white">
+      <MainContainer className="grid grid-cols-1 lg:grid-cols-2 h-full">
+        {/* Left side: Form - Full height */}
+        <div className="flex flex-col justify-center p-8 lg:p-12 xl:p-16">
+          <div className="space-y-4 max-w-md w-full mx-auto">
+            <div className="size-[80px] relative mx-auto md:mx-0">
+              <Image fill src={logo} alt="logo" priority />
             </div>
+            <h2 className="text-3xl font-semibold">Welcome back!</h2>
+            <p className="text-gray-500">Please enter your details</p>
+
             <Form<LoginFormValues>
               name="login"
               onFinish={onFinish}
-              className="space-y-3 mt-5"
+              className="space-y-4 mt-6"
               layout="vertical"
             >
-              {/* Email Input Wrapped in Form.Item */}
               <Form.Item
                 name="email"
                 label="Email"
@@ -67,7 +61,6 @@ const Login: React.FC = () => {
                 />
               </Form.Item>
 
-              {/* Password Input Wrapped in Form.Item */}
               <Form.Item
                 name="password"
                 label="Password"
@@ -83,7 +76,6 @@ const Login: React.FC = () => {
               </Form.Item>
 
               <div className="flex justify-between items-center">
-                {/* Remember Me Checkbox */}
                 <Form.Item name="remember" valuePropName="checked" noStyle>
                   <Checkbox>Remember me</Checkbox>
                 </Form.Item>
@@ -92,50 +84,52 @@ const Login: React.FC = () => {
                 </Link>
               </div>
 
-              {/* Submit Button */}
               <Form.Item>
-                <CustomLoadingButton loading={loading}>
+                <CustomLoadingButton loading={loading} className="w-full">
                   Login
                 </CustomLoadingButton>
               </Form.Item>
             </Form>
 
-            <p className="text-gray-500 mt-5 text-center">
-              Already have an account?{" "}
+            <p className="text-gray-500 mt-4 text-center">
+              Don&apos;t have an account?{" "}
               <Link href="/register" className="text-blue-500">
-                Register
+                Sign up
               </Link>
             </p>
 
-            <div className="w-full flex justify-center items-center gap-2 mt-5">
-              <div className="w-full h-[1px] bg-gray-800"></div>
-              <div className="w-full">
-                <h1 className="text-center">Or login with</h1>
-              </div>
-              <div className="w-full h-[1px] bg-gray-800"></div>
+            <div className="w-full flex justify-center items-center gap-2 mt-6">
+              <div className="w-full h-[1px] bg-gray-300"></div>
+              <span className="text-gray-500 text-sm whitespace-nowrap px-2">Or login with</span>
+              <div className="w-full h-[1px] bg-gray-300"></div>
             </div>
 
-            <div className="mt-5">
-              <div className="size-14 mx-auto border border-[#C0E4FF] rounded-full flex justify-center items-center">
+            <div className="mt-6 flex justify-center">
+              <button className="size-14 border border-gray-300 rounded-full flex justify-center items-center hover:bg-gray-50 transition-colors">
                 <FcGoogle size={28} />
-              </div>
+              </button>
             </div>
           </div>
+        </div>
 
-          {/* Right side: Nurse image and circle background */}
-          <div className="w-full bg-[#C0E4FF]  rounded-xl flex justify-center items-center relative order-first md:order-last">
-            <img
-              src={circle.src}
-              alt=""
-              className="w-[400px] sm:w-[450px] md:w-[480px] xl:w-[500px] -mr-14 md:-mr-16 xl:-mr-20 2xl:-mr-28"
+        {/* Right side: Image - Full height */}
+        <div className="hidden lg:flex bg-[#C0E4FF] relative h-full w-full">
+          <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+            <Image
+              src={circle}
+              alt="Background circle"
+              className="object-contain w-full h-full"
+              fill
+              priority
             />
-            <img
-              src={nurseImage.src}
-              alt=""
-              className="h-[280px] sm:h-[320px]  md:h-[330px] xl:h-[400px] 2xl:h-[430px] bottom-0 absolute "
+            <Image
+              src={nurseImage}
+              alt="Nurse illustration"
+              className="object-contain absolute bottom-0 h-[70%]"
+              width={500}
+              height={500}
+              priority
             />
-
-         
           </div>
         </div>
       </MainContainer>

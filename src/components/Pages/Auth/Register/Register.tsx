@@ -59,7 +59,7 @@ const Register: React.FC = () => {
           <Form<RegisterFormValues>
             name="register"
             onFinish={onFinish}
-            className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 mt-5"
+            className="w-full grid grid-cols-1 md:grid-cols-1 gap-3 mt-5"
             layout="vertical"
           >
             {/* Name Input Wrapped in Form.Item */}
@@ -174,7 +174,7 @@ const Register: React.FC = () => {
         </div>
 
         {/* Right side: Nurse image and circle background */}
-        <div className="w-full bg-[#C0E4FF]  rounded-xl hidden sm:flex justify-center items-center relative order-first md:order-last">
+        <div className="w-full h-[950px] bg-[#C0E4FF]  rounded-xl hidden sm:flex justify-center items-center relative order-first md:order-last">
           <img
             src={circle.src}
             alt=""

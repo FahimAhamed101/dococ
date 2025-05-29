@@ -30,7 +30,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <section className="w-full h-full lg:h-screen flex justify-between items-center p-5">
+    <section className="w-full h-full px-5 py-10">
       {/* Main container */}
       <MainContainer className="grid grid-cols-1 lg:grid-cols-2 gap-16 bg-white">
         {/* Left side: Form */}
@@ -72,8 +72,7 @@ const ForgotPassword = () => {
           </Form>
         </div>
 
-        {/* Right side: Nurse image and circle background */}
-        <div className="w-full bg-[#C0E4FF]  rounded-xl hidden sm:flex justify-center items-center relative order-first md:order-last">
+      <div className="w-full h-[650px] bg-[#C0E4FF]  rounded-xl hidden sm:flex justify-center items-center relative order-first md:order-last">
           <img
             src={circle.src}
             alt=""
@@ -82,7 +81,7 @@ const ForgotPassword = () => {
           <img
             src={nurseImage.src}
             alt=""
-            className="h-[280px] sm:h-[320px]  md:h-[310px] xl:h-[380px] 2xl:h-[410px] bottom-0 absolute"
+            className="h-[350px] sm:h-[390px]  md:h-[400px] xl:h-[470px] 2xl:h-[500px] bottom-0 absolute "
           />
         </div>
       </MainContainer>

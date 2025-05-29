@@ -110,7 +110,7 @@ const ResetPassword: React.FC = () => {
         </div>
 
         {/* Right side: Nurse image and circle background */}
-        <div className="w-full bg-[#C0E4FF]  rounded-xl flex justify-center items-center relative order-first md:order-last">
+        <div className="w-full h-[850px] bg-[#C0E4FF]  rounded-xl flex justify-center items-center relative order-first md:order-last">
             <img
               src={circle.src}
               alt=""

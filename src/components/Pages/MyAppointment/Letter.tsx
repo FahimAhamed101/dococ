@@ -34,12 +34,12 @@ const Letter: React.FC = () => {
           <CustomBreadcrumb items={breadcrumbItems}  />
           
           <h2 className="text-3xl font-semibold text-gray-800 text-center mt-8 mb-10">
-            My Appointment
+           Letter
           </h2>
 
          <div className="max-w-2xl mx-auto bg-white shadow-lg">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-400 to-blue-500 px-6 py-4 flex justify-between items-center">
+      <div className="bg-[#77C4FE]  px-6 py-4 flex justify-between items-center">
         <div className="text-white">
           <h1 className="text-2xl font-bold">e-Clinic</h1>
           <p className="text-sm opacity-90">Specialist online healthcare</p>
