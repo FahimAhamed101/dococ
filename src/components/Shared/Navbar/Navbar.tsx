@@ -41,16 +41,20 @@ const Navbar = () => {
   const isChangePassword = pathname === "/change-password";
   const isNotFound = pathname === "/notfound";
   const isMessage = pathname === "/message";
+   const isReview = pathname === "/review";
   return (
     <nav
       className={
         isHomePage
-          ? "bg-sky-50"
+          ? "bg-sky-50 pt-5"
           : isPricing
           ? "bg-[#F4FCF8]"
           : isFaq
           ? "bg-sky-50 pt-5"
           : isContact
+        
+          ? "bg-sky-50 pt-5" 
+          : isReview 
           ? "bg-sky-50 pt-5"
           : isNotFound
           ? "bg-[#F1F9FF] pt-5"

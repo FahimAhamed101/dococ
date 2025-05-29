@@ -15,7 +15,7 @@ const Review: React.FC = () => {
     <section className="w-full px-5 py-10 bg-[#F1F9FF]">
       <MainContainer className="flex flex-col items-center p-8 rounded-lg w-full max-w-4xl mx-auto">
         <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-4 text-center">
-          How was your experience with Dr. Evans Onwubiko?
+          How was your experience <br/> with Dr. Evans Onwubiko?
         </h2>
 
         {/* Star Rating */}
@@ -24,7 +24,7 @@ const Review: React.FC = () => {
             <button
               key={star}
               onClick={() => handleRating(star)}
-              className={`text-3xl ${
+              className={`text-3xl   ${
                 star <= rating ? "text-blue-400" : "text-gray-300"
               }`}
             >

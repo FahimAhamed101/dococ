@@ -25,7 +25,7 @@ const CustomLoadingButton: React.FC<CustomLoadingButtonProps> = ({
     >
       <button
         type="submit" // Use button instead of submit
-        className={`${className} w-full bg-primary ${
+        className={`${className} w-full bg-[[#77C4FE]] ${
           loading ? "opacity-75" : "opacity-100"
         } flex px-5 py-3 rounded-lg justify-center items-center gap-5 text-white transition-all duration-500`}
         onClick={onClick}
