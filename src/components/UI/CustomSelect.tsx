@@ -11,7 +11,7 @@ interface CustomSelectProps {
   placeholder?: string;
   className?: string;
   options?: Option[];
-  [key: string]: unknown; // To allow additional props
+  [key: string]: unknown;
 }
 
 const CustomSelect: FC<CustomSelectProps> = ({
@@ -21,23 +21,22 @@ const CustomSelect: FC<CustomSelectProps> = ({
   ...rest
 }) => {
   return (
-    <div className="relative">
-      <Select
-        size="large"
-        style={{
-          padding: "20px",
-        }}
-        placeholder={placeholder || "Select value"}
-        className={`w-full border border-[#77C4FE] px-4 py-2 text-[16px]  text-gray-700 rounded-lg focus:border-[#77C4FE] ${className}`}
-        {...rest}
-      >
-        {options.map((option) => (
-          <Select.Option key={option.value} value={option.value}>
-            {option.label}
-          </Select.Option>
-        ))}
-      </Select>
-    </div>
+    <Select
+      size="large"
+      placeholder={placeholder || "Select value"}
+      className={`w-full ${className}`}
+      style={{
+        width: '100%',
+        height: '40px', // Match Ant Design's large input height
+      }}
+      {...rest}
+    >
+      {options.map((option) => (
+        <Select.Option key={option.value} value={option.value}>
+          {option.label}
+        </Select.Option>
+      ))}
+    </Select>
   );
 };
 

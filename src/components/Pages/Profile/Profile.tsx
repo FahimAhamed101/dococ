@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { Form, Upload, Button } from "antd";
+import { Form, } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { HiOutlineHome } from "react-icons/hi";
 import { IoCameraOutline } from "react-icons/io5";
@@ -83,7 +83,7 @@ const ProfileForm: React.FC = () => {
             </div>
           </div>
           {/* Form Section */}
-          <Form layout="vertical">
+          <Form layout="vertical"   className="[&_.ant-form-item]:mb-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               <Form.Item label="Full Name" name="fullName">
                 <CustomInput placeholder="Smith" readOnly={!isEditing} />
@@ -91,16 +91,18 @@ const ProfileForm: React.FC = () => {
               <Form.Item label="Last Name" name="lastName">
                 <CustomInput placeholder="Anthony" readOnly={!isEditing} />
               </Form.Item>
-              <Form.Item label="Gender" name="gender">
-                <CustomSelect
-                  placeholder="Select Gender"
-                  options={[
-                    { label: "Male", value: "male" },
-                    { label: "Female", value: "female" },
-                  ]}
-                  disabled={!isEditing}
-                />
-              </Form.Item>
+<Form.Item label="Gender" name="gender">
+  <CustomSelect
+    placeholder="Select Gender"
+    options={[
+      { label: "Male", value: "male" },
+      { label: "Female", value: "female" },
+    ]}
+    disabled={!isEditing}
+  />
+</Form.Item>
+
+             
               <Form.Item label="Date of Birth" name="dateOfBirth">
                 <CustomDatePicker disabled={!isEditing} />
               </Form.Item>
@@ -116,42 +118,10 @@ const ProfileForm: React.FC = () => {
               <Form.Item label="Weight" name="weight">
                 <CustomInput placeholder="72 kg" readOnly={!isEditing} />
               </Form.Item>
-              <Form.Item label="Past Medical History" name="pastMedicalHistory">
-                <CustomInput
-                  placeholder="Breathing problem and chest pain"
-                  readOnly={!isEditing}
-                />
-              </Form.Item>
-              <Form.Item label="Social History" name="socialHistory">
-                <CustomInput placeholder="Description" readOnly={!isEditing} />
-              </Form.Item>
-              <Form.Item label="Allergy History" name="allergyHistory">
-                <CustomInput placeholder="Description" readOnly={!isEditing} />
-              </Form.Item>
-              <Form.Item label="Drug History" name="drugHistory">
-                <CustomInput placeholder="Description" readOnly={!isEditing} />
-              </Form.Item>
-              <Form.Item label="Medical Condition" name="medicalCondition">
-                <CustomInput placeholder="Description" readOnly={!isEditing} />
-              </Form.Item>
+        
             </div>
 
-            {/* Upload Files Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-              <Form.Item label="Attach Prescription" name="prescription">
-                <Upload>
-                  <Button icon={<UploadOutlined />}>Upload file</Button>
-                </Upload>
-              </Form.Item>
-              <Form.Item
-                label="Attach Medical Documents"
-                name="medicalDocuments"
-              >
-                <Upload>
-                  <Button icon={<UploadOutlined />}>Upload file</Button>
-                </Upload>
-              </Form.Item>
-            </div>
+          
 
             {/* Buttons */}
             <div className="flex justify-end mt-6 gap-4">
@@ -163,6 +133,83 @@ const ProfileForm: React.FC = () => {
               </button>
               <CustomButton>Save Changes</CustomButton>
             </div>
+             <div className="max-w-6xl mx-auto space-y-6">
+        {/* Header Section */}
+        <div className="flex justify-between items-start">
+          <div className="flex-1">
+            <h2 className="text-lg font-medium text-gray-900 mb-4">Other documents</h2>
+
+            {/* Upload Area */}
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-white">
+              <div className="flex flex-col items-center space-y-2">
+                <div className="w-8 h-8 text-blue-400">
+                  <UploadOutlined className="w-full h-full" />
+                </div>
+                <span className="text-blue-500 text-sm font-medium">Upload file</span>
+              </div>
+            </div>
+          </div>
+
+       
+        </div>
+       
+           <div className=" flex justify-end"><span className="ml-6 mb-5 bg-cyan-400 hover:bg-cyan-500 text-white">Document History</span></div>
+    
+   {/* Document History Button */}
+         
+        {/* Main Content Card */}
+        <div className="border border-blue-200">
+          <div className="p-6">
+            {/* Doctor Info Grid */}
+            <div className="grid grid-cols-3 gap-6 mb-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-900 mb-1">Doctor Name</label>
+                <p className="text-sm text-gray-600">Dr. Evan</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-900 mb-1">Subject</label>
+                <p className="text-sm text-gray-600">Cardiology</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-900 mb-1">Medical Name</label>
+                <p className="text-sm text-gray-600">Dhaka Medical College</p>
+              </div>
+            </div>
+
+            {/* Description Section */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-900 mb-2">Description</label>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel mauris ullamcorper sit dignissim
+                nulla. Diam sed rhoncus vulputate cursus tristique imperdiet felis ut. Facilibus vel sollicitudin lorem
+                lorem vel massa. Auctor et dignissim ipsum ut blandit velit. In. Amet blandit velit adipiscing elit ut
+                sed. A id a neque eu urna auctor quis mollis nulla. Tristique neque auctor interdum sem magna
+                pellentesque dignissim. Ullamcorper magna sit, non consectetur. Venenatis, venenatis vulputate bibendum
+                adipiscing.
+              </p>
+            </div>
+
+            {/* Date Section */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-900 mb-1">Date</label>
+              <p className="text-sm text-gray-600">12/12/2025 8:30 AM</p>
+            </div>
+
+            {/* Documents Section */}
+            <div>
+              <label className="block text-sm font-medium text-gray-900 mb-2">Documents</label>
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-gray-50">
+                <div className="flex flex-col items-center space-y-2">
+                  <div className="w-6 h-6 text-blue-400">
+                    <UploadOutlined className="w-full h-full" />
+                  </div>
+                  <span className="text-blue-500 text-sm">Document file</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
           </Form>
         </div>
       </MainContainer>

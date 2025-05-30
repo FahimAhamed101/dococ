@@ -77,3 +77,31 @@ p {
   line-height: 1.5;
   margin-bottom: 1rem;
 }
+
+/* Global form styles */
+.ant-input,
+.ant-select-selector,
+.ant-picker {
+  border: 1px solid #3b82f6 !important; /* gray-300 */
+  border-radius: 0.5rem !important; /* rounded-lg */
+  transition: border-color 0.2s;
+  height: 40px !important; /* Ensure consistent height */
+}
+
+.ant-input:hover,
+.ant-select-selector:hover,
+.ant-picker:hover {
+  border-color: #3b82f6 !important; /* blue-500 */
+}
+
+.ant-input:focus,
+.ant-select-focused .ant-select-selector,
+.ant-picker-focused {
+  border-color: #3b82f6 !important; /* blue-500 */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Ensure select dropdown matches input width */
+.ant-select-dropdown {
+  min-width: 200px !important;
+}
