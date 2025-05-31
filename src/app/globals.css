@@ -79,7 +79,7 @@ p {
 }
 
 /* Global form styles */
-.ant-input,
+
 .ant-select-selector,
 .ant-picker {
   border: 1px solid #3b82f6 !important; /* gray-300 */
