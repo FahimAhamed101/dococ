@@ -1,7 +1,7 @@
 import Image from "next/image";
 import about1 from "@/assets/about/about1.png"; // Doctor image
 import about2 from "@/assets/about/about2.png"; // Smaller nurse image
-import about3 from "@/assets/about/about3.png"; // Smaller nurse image
+import about3 from "@/assets/about/about3.png";
 import MainContainer from "@/components/Shared/MainContainer/MainContainer";
 import CustomButton from "@/components/UI/CustomButton";
 import circle from "@/assets/circle.svg"
@@ -10,8 +10,18 @@ const AboutUs = () => {
     <section className="w-full px-5 py-16 relative">
       <MainContainer className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         {/* Right section with text content (first on mobile, second on larger screens) */}
-        <div className="w-full h-full flex items-center bg-cover bg-center order-1 md:order-2" 
-          style={{ backgroundImage: `url(${about3.src})` }}>
+        <div className="w-full h-full relative flex items-center bg-cover bg-left order-1 md:order-2" 
+        >
+                <div className="absolute top-[-224px] left-[-288px]  z-10">
+        <Image
+          src={about3}
+          alt="Background"
+       
+          
+          
+           // Adjust opacity as needed
+        />
+      </div>
           <div className="text-center md:text-left">
             <h2 className="text-3xl font-bold text-gray-800">About</h2>
             <h3 className="text-xl font-semibold text-gray-700 mt-4">
@@ -28,6 +38,16 @@ const AboutUs = () => {
               <CustomButton className="bg-sky-300">See More</CustomButton>
             </div>
           </div>
+           <div className="absolute rounded-lg right-[168px] top-[91px]">
+          <Image
+              src={circle}
+              alt="circle"
+              className=""
+              width={80}
+              height={80}
+              objectFit="cover"
+            />
+      </div>
         </div>
 
         {/* Left section with doctor and circular nurse image (second on mobile, first on larger screens) */}
@@ -36,7 +56,7 @@ const AboutUs = () => {
             <Image
               src={about1}
               alt="Doctor"
-              className="rounded-lg"
+              className="rounded-lg shadow-sm"
               width={600}
               height={500}
               objectFit="cover"
@@ -49,17 +69,18 @@ const AboutUs = () => {
                 layout="fill"
                 objectFit="cover"
               />
-            </div>  
+            </div>     
         </div>
        
       </MainContainer>
+  
       <div className="absolute rounded-lg right-0 top-[-8.25rem] pb-25">
           <Image
               src={circle}
               alt="circle"
               className=""
-              width={200}
-              height={200}
+              width={180}
+              height={180}
               objectFit="cover"
             />
       </div>
