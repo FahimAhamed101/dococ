@@ -9,23 +9,22 @@ import Image from "next/image";
 import call from "@/assets/call.svg";
 const HeroSection = () => {
   return (
-    <section className="w-full px-5 bg-sky-50">
+    <section className="w-full px-5 bg-[#F1F9FF]">
       <MainContainer className="w-full h-full md:h-[75vh] grid grid-cols-1 md:grid-cols-2 gap-8 place-items-center place-content-center pt-10 md:pt-0">
         {/* Left side: Heading, Text, and Button */}
-        <div className="w-full space-y-10">
+        <div className="w-full space-y-4">
           {/* Hero title */}
-          <h1 className="text-6xl font-semibold flex flex-col gap-3">
-            <span className="text-[#414141]">Doctor live</span>
-            <span className="text-secondary">Consultation.</span>
+          <h1 className="  flex flex-col ">
+            <span className="text-[#414141] text-[70px]  font-[600]">Doctor live</span>
+            <span className="text-[#2AA7FF] text-[70px]  font-[600]">Consultation.</span>
           </h1>
           {/* Description */}
-          <p className="text-[16px] leading-relaxed text-gray-600">
-            We are committed to delivering the best medical and healthcare
-            services to help you live a healthy and happy life.
+          <p className="text-[16px] leading-relaxed text-gray-600 font-[600]">
+     We are committed to deliver Providing you with the best medical and healthcare services to <br/> help you live a healthy and happy life.
           </p>
           {/* Appointment button */}
-       <div className="flex items-center gap-6">
-      <CustomButton className="bg-sky-400 hover:bg-sky-500 text-white px-8 py-2 text-base font-medium" >
+       <div className="flex items-center gap-2">
+      <CustomButton className="bg-[#77C4FE] hover:bg-sky-500 text-white px-8 py-2 text-base font-medium" >
         Book an appointment
       </CustomButton>
 
@@ -96,7 +95,7 @@ const HeroSection = () => {
             alt=""
             className="h-[280px] sm:h-[320px]  md:h-[330px] xl:h-[400px] 2xl:h-[480px] left-[24%] -bottom-[50px] absolute "
           />
-          <div className="flex gap-3 items-center -left-8 absolute top-36 bg-white px-8 py-4 rounded-3xl ">
+          <div className="flex gap-3 items-center -left-8 absolute top-36 bg-[#F6F9FFCF]  shadow-md px-8 py-4 rounded-3xl ">
             <Image width={50} height={50} src={emoji} alt="emoji" />
             <div className="flex flex-col gap-2">
               <h1 className="text-2xl font-semibold text-secondary">84k+</h1>
