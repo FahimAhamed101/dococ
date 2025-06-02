@@ -56,7 +56,7 @@ const CustomArrow: React.FC<CustomArrowProps> = ({ onClick, direction }) => (
       ${direction === "prev" ? "left-2" : "right-2"}
       top-1/2 -translate-y-1/2
       w-8 h-5 rounded-xl
-      bg-sky-400 hover:bg-white/50
+      bg-[#77C4FE] hover:bg-white/50
       backdrop-blur-sm
       shadow-lg
       flex items-center justify-center
@@ -115,37 +115,44 @@ const Review: React.FC = () => {
           <h1 className="text-4xl font-semibold text-[#32526B]">Some Reviews</h1>
           <p className="text-gray-900">What Are People Saying About Us</p>
         </div>
-        <Slider {...settings}>
-          {reviews.map((review, index) => (
-            <div key={index} className="w-full px-4">
-              <div className="w-full flex items-center">
-                <div className="hidden md:block w-[13%] h-[520px] bg-[#D3B5D3] rounded-xl"></div>
-                <div className="w-full md:w-[87%] h-full flex flex-col md:flex-row items-center gap-10 md:z-50 -ml-0 md:-ml-10">
-                  <div className="w-full h-[300px] md:w-[400px] md:h-[400px] relative">
-                    <Image
-                      src={review.image}
-                      alt={`${review.name}'s review`}
-                      fill
-                      className="rounded-xl object-cover"
-                      sizes="(max-width: 768px) 100vw, 400px"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h4 className="text-3xl font-semibold text-gray-800">
-                      {review.name}
-                    </h4>
-                    <p className="text-gray-500">{review.location}</p>
-                    <p className="mt-4 text-gray-700">{review.review}</p>
-                    <div className="mt-4 text-yellow-500 text-2xl">
-                      {"★".repeat(review.rating)}
-                      {"☆".repeat(5 - review.rating)}
-                    </div>
-                  </div>
-                </div>
+    <div className="relative"> {/* Wrap Slider and background in a container */}
+  {/* Static background (outside Slider) */}
+  <div className="hidden absolute md:block w-[13%] z-[-17] h-[520px] bg-[#D3B5D3] rounded-xl left-[78px] top-0"></div>
+
+  {/* Slider (moves independently) */}
+  <Slider {...settings} className="w-full">
+    {reviews.map((review, index) => (
+      <div key={index} className="w-full px-4">
+        <div className="w-full flex items-center">
+          <div className="w-full md:w-[87%] h-full flex flex-col md:flex-row items-center gap-10 md:z-50 md:ml-[13%]"> {/* Adjust margin to overlap */}
+            {/* Image */}
+            <div className="w-full h-[300px] md:w-[400px] md:h-[400px] relative">
+              <Image
+                src={review.image}
+                alt={`${review.name}'s review`}
+                fill
+                className="rounded-xl object-cover"
+                sizes="(max-width: 768px) 100vw, 400px"
+              />
+            </div>
+            {/* Review text */}
+            <div className="p-4">
+              <h4 className="text-3xl font-semibold text-gray-800">
+                {review.name}
+              </h4>
+              <p className="text-gray-500">{review.location}</p>
+              <p className="mt-4 text-gray-700">{review.review}</p>
+              <div className="mt-4 text-yellow-500 text-2xl">
+                {"★".repeat(review.rating)}
+                {"☆".repeat(5 - review.rating)}
               </div>
             </div>
-          ))}
-        </Slider>
+          </div>
+        </div>
+      </div>
+    ))}
+  </Slider>
+</div>
       </MainContainer>
     </section>
   );
