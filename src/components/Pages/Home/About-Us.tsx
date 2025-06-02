@@ -62,11 +62,13 @@ const AboutUs = () => {
               objectFit="cover"
             />
             {/* Circular overlay image of the nurse */}
-            <div className="absolute  left-1/2 md:left-[50%] transform -translate-x-1/2 md:translate-x-0 bottom-4 size-40 md:size-96 overflow-hidden">
+            <div className="absolute  left-1/2 md:left-[55%] transform -translate-x-1/2 md:translate-x-0 bottom-4 size-40 md:size-96 overflow-hidden">
               <Image
                 src={about2}
+                width={300}
+              height={300}
                 alt="Nurse smiling"
-                layout="fill"
+               
                 objectFit="cover"
               />
             </div>     

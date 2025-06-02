@@ -12,7 +12,7 @@ const HeroSection = () => {
     <section className="w-full px-5 bg-[#F1F9FF]">
       <MainContainer className="w-full h-full md:h-[75vh] grid grid-cols-1 md:grid-cols-2 gap-8 place-items-center place-content-center pt-10 md:pt-0">
         {/* Left side: Heading, Text, and Button */}
-        <div className="w-full space-y-4">
+        <div className="w-full ">
           {/* Hero title */}
           <h1 className="  flex flex-col ">
             <span className="text-[#414141] text-[70px]  font-[600]">Doctor live</span>
@@ -95,14 +95,14 @@ const HeroSection = () => {
             alt=""
             className="h-[280px] sm:h-[320px]  md:h-[330px] xl:h-[400px] 2xl:h-[480px] left-[24%] -bottom-[50px] absolute "
           />
-          <div className="flex gap-3 items-center -left-8 absolute top-36 bg-[#F6F9FFCF]  shadow-md px-8 py-4 rounded-3xl ">
+          <div className="flex gap-3 items-center -left-8 absolute top-36 bg-[#F6F9FFCF]  shadow-lg px-8 py-4 rounded-3xl ">
             <Image width={50} height={50} src={emoji} alt="emoji" />
             <div className="flex flex-col gap-2">
               <h1 className="text-2xl font-semibold text-secondary">84k+</h1>
               <h1>Happy Client</h1>
             </div>
           </div>
-          <div className="flex gap-5 items-center right-28 absolute bottom-9 bg-white px-10 py-5 rounded-3xl">
+          <div className="flex gap-5 items-center right-28 absolute bottom-9 shadow-lg bg-white px-10 py-5 rounded-3xl">
             <Image width={50} height={50} src={checked} alt="emoji" />
             <h1 className="font-semibold">
               Regular <br /> Checkup
