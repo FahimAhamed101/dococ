@@ -3,7 +3,7 @@ import MainContainer from "@/components/Shared/MainContainer/MainContainer";
 import CustomBreadcrumb from "@/components/UI/CustomBreadcrumb";
 import CustomInput from "@/components/UI/CustomInput";
 import CustomLoadingButton from "@/components/UI/CustomLoadingButton";
-import { CloseOutlined, HomeOutlined, MessageOutlined } from "@ant-design/icons";
+import { CloseOutlined, HomeOutlined, MailOutlined, UserOutlined, MessageOutlined } from "@ant-design/icons";
 import { Form } from "antd";
 import React from "react";
 
@@ -78,7 +78,7 @@ const ChatBot: React.FC = () => {
                 >
                   <CustomInput
                     placeholder="Enter your name"
-                
+                  icon={UserOutlined}
                     className="border-gray-300 hover:border-blue-400 focus:border-blue-500"
                   />
                 </Form.Item>
@@ -93,7 +93,7 @@ const ChatBot: React.FC = () => {
                 >
                   <CustomInput
                     placeholder="Enter your email"
-               
+               icon={MailOutlined}
                     className="border-gray-300 hover:border-blue-400 focus:border-blue-500"
                   />
                 </Form.Item>
