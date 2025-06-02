@@ -56,14 +56,16 @@ const BlogDetails = (props: BlogDetailsProps) => {
         </div>
         <div className="w-full p-5 rounded-xl">
           {/* Blog Image */}
-          <div className="w-full h-56 md:h-[600px] relative">
-            <Image
-              src={blog.imgSrc}
-              alt="Blog Image"
-              fill
-              className="rounded-xl w-full absolute"
-            />
-          </div>
+      <div className="relative w-full aspect-[16/9] md:aspect-[3/1] rounded-xl overflow-hidden">
+  <Image
+    src={blog.imgSrc}
+    alt="Blog Image"
+    fill
+    className="object-cover"
+    priority
+  />
+</div>
+
 
           {/* Blog Info */}
           <div className="mt-4 space-y-3">

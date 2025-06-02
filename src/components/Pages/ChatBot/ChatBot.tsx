@@ -3,10 +3,10 @@ import MainContainer from "@/components/Shared/MainContainer/MainContainer";
 import CustomBreadcrumb from "@/components/UI/CustomBreadcrumb";
 import CustomInput from "@/components/UI/CustomInput";
 import CustomLoadingButton from "@/components/UI/CustomLoadingButton";
-import { CloseOutlined, HomeOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
+import { CloseOutlined, HomeOutlined, MessageOutlined } from "@ant-design/icons";
 import { Form } from "antd";
 import React from "react";
-import { } from "@ant-design/icons";
+
 // Define form values interface
 interface ChatBotFormValues {
   name: string;
@@ -19,7 +19,7 @@ const ChatBot: React.FC = () => {
     {
       href: "/",
       title: (
-        <div className="flex gap-2 texl">
+        <div className="flex gap-2 items-center">
           <HomeOutlined />
           <span>Home</span>
         </div>
@@ -36,68 +36,95 @@ const ChatBot: React.FC = () => {
   };
 
   return (
-    <section className="w-full px-5 py-10">
+    <section className="w-full px-5 py-10 bg-gradient-to-b from-blue-50 to-white">
       <MainContainer>
         <CustomBreadcrumb items={breadcrumbItems} />
-        <h1 className="text-5xl font-semibold text-[#32526B] text-center my-5">
-          Asking Your Question
-        </h1>
-        <div className="w-full py-8">
-          <div className="w-full  max-w-2xl mx-auto relative border px-8 py-14 bg-sky-100 rounded-xl border-sky-300">
-        <button className="absolute top-0 right-0 py-4 px-6 bg-rose-600 text-white  rounded-tr-2xl rounded-bl-2xl hover:bg-blue-600 transition-colors shadow-m"><CloseOutlined /></button>
-            <Form
-              onFinish={handleSubmit}
-              layout="vertical"
-              className="space-y-3"
-            >    
-              <Form.Item
-                name="name"
-                label="Your Name"
-                rules={[{ required: true, message: "Please input your name!" }]}
-              >
-                <CustomInput
-                  placeholder="Name"
-                  icon={UserOutlined}
-                  className="bg-transparent"
-                />
-              </Form.Item>
+        <div className="text-center mb-10">
+          <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400">
+            Ask Your Question
+          </h1>
+          <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
+            Our AI assistant is ready to help you 24/7. Fill out the form below to start chatting.
+          </p>
+        </div>
+        
+        <div className="w-full py-8 flex justify-center">
+          <div className="w-full max-w-2xl relative bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+            {/* Chat header */}
+            <div className="bg-gradient-to-r from-blue-500 to-cyan-400 p-6 flex items-center">
+              <div className="bg-white p-2 rounded-full mr-4">
+                <MessageOutlined className="text-blue-500 text-xl" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-white">AI Chat Assistant</h2>
+                <p className="text-blue-100 text-sm">Online now</p>
+              </div>
+              <button className="ml-auto bg-white/20 hover:bg-white/30 transition-colors p-2 rounded-full">
+                <CloseOutlined className="text-white" />
+              </button>
+            </div>
 
-              <Form.Item
-                name="email"
-                label="Your Email"
-                rules={[
-                  { required: true, message: "Please input your email!" },
-                  { type: "email", message: "Please enter a valid email!" },
-                ]}
-              >
-                <CustomInput
-                  placeholder="Email"
-                  icon={MailOutlined}
-                  className="bg-transparent"
-                />
-              </Form.Item>
+            {/* Chat form */}
+            <div className="p-6 md:p-8">
+              <Form
+                onFinish={handleSubmit}
+                layout="vertical"
+                className="space-y-4"
+              >    
+                <Form.Item
+                  name="name"
+                  label={<span className="font-medium text-gray-700">Your Name</span>}
+                  rules={[{ required: true, message: "Please input your name!" }]}
+                >
+                  <CustomInput
+                    placeholder="Enter your name"
+                
+                    className="border-gray-300 hover:border-blue-400 focus:border-blue-500"
+                  />
+                </Form.Item>
 
-              <Form.Item
-                name="message"
-                label="Your Question"
-                rules={[
-                  { required: true, message: "Please input your question!" },
-                ]}
-              >
-                <CustomInput
-                  placeholder="Write Now"
-                  isTextArea
-                  className="bg-transparent"
-                />
-              </Form.Item>
+                <Form.Item
+                  name="email"
+                  label={<span className="font-medium text-gray-700">Your Email</span>}
+                  rules={[
+                    { required: true, message: "Please input your email!" },
+                    { type: "email", message: "Please enter a valid email!" },
+                  ]}
+                >
+                  <CustomInput
+                    placeholder="Enter your email"
+               
+                    className="border-gray-300 hover:border-blue-400 focus:border-blue-500"
+                  />
+                </Form.Item>
 
-              {/* Submit Button */}
-              <Form.Item className="">
-                <div className="mt-6 ">
-                  <CustomLoadingButton className="border-none bg-[#77C4FE] ">Start Chat</CustomLoadingButton>
-                </div>
-              </Form.Item>
-            </Form>
+                <Form.Item
+                  name="message"
+                  label={<span className="font-medium text-gray-700">Your Question</span>}
+                  rules={[
+                    { required: true, message: "Please input your question!" },
+                  ]}
+                >
+                  <CustomInput
+                    placeholder="Type your question here..."
+                    isTextArea
+                    className="border-gray-300 hover:border-blue-400 focus:border-blue-500 min-h-[120px]"
+                  />
+                </Form.Item>
+
+                {/* Submit Button */}
+                <Form.Item>
+                  <div className="mt-6">
+                    <CustomLoadingButton 
+                      className="w-full py-4 bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white font-semibold rounded-lg shadow-md transition-all transform hover:scale-[1.02]"
+                    
+                    >
+                      Start Chat Now
+                    </CustomLoadingButton>
+                  </div>
+                </Form.Item>
+              </Form>
+            </div>
           </div>
         </div>
       </MainContainer>
