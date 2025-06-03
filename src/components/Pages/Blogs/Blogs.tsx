@@ -1,7 +1,7 @@
 import MainContainer from "@/components/Shared/MainContainer/MainContainer";
 import CustomBreadcrumb from "@/components/UI/CustomBreadcrumb";
 import { HomeOutlined } from "@ant-design/icons";
-import RecentBlogCard from "../Home/RecentBlogCard";
+import RecentBlogCard1 from "../Home/RecentBlogCard1";
 const Blogs = () => {
   const breadcrumbItems = [
     {
@@ -91,7 +91,7 @@ const Blogs = () => {
 
         <div className="w-full  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 py-10">
           {blogs.map((blog) => (
-            <RecentBlogCard key={blog.id} blog={blog} />
+            <RecentBlogCard1 key={blog.id} blog={blog} />
           ))}
         </div>
       </MainContainer>

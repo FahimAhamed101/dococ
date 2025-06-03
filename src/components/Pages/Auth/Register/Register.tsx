@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { Form, Checkbox } from "antd";
+import { Form, Checkbox, DatePicker, Select, message } from "antd";
 import {
   MailOutlined,
   LockOutlined,
@@ -17,35 +17,77 @@ import React, { useState } from "react";
 import CustomInput from "@/components/UI/CustomInput";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
+import { useRegisterMutation } from "@/redux/features/auth/authApi";
+import dayjs, { Dayjs } from "dayjs";
+import { useRouter } from "next/navigation";
 
-// Define the form values interface
+const { Option } = Select;
+
 interface RegisterFormValues {
-  name: string;
-  email: string;
-  phone: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: Dayjs;
+  callingCode: string;
+  phoneNumber: number;
   address: string;
+  email: string;
   password: string;
   terms?: boolean;
 }
 
-const Register: React.FC = () => {
-  const [loading, setLoading] = useState<boolean>(false);
-
-  // Handle form submission
-  const onFinish = (values: RegisterFormValues) => {
-    setLoading(true);
-    // Simulate a network request
-    setTimeout(() => {
-      console.log("Received values from form: ", values);
-      setLoading(false);
-    }, 2000);
+interface ApiError {
+  data?: {
+    message?: string;
+    errors?: Record<string, string[]>;
   };
+  message?: string;
+}
+
+interface RegisterResponse {
+  message: string;
+  // Add other response properties as needed
+}
+
+const Register: React.FC = () => {
+  const [form] = Form.useForm<RegisterFormValues>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [register] = useRegisterMutation();
+  const router = useRouter();
+
+  const onFinish = async (values: RegisterFormValues) => {
+    try {
+      setLoading(true);
+      
+      const formattedValues = {
+        ...values,
+        dateOfBirth: values.dateOfBirth.format('YYYY-MM-DD'),
+        phoneNumber: Number(values.phoneNumber)
+      };
+
+      const response = await register(formattedValues).unwrap() as RegisterResponse;
+      
+      message.success(response.message || 'Registration successful!');
+      router.push('/login');
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      message.error(err.data?.message || 'Registration failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const passwordRules = [
+    { required: true, message: 'Please input your password!' },
+    { min: 8, message: 'Password must be at least 8 characters!' },
+    { pattern: /[A-Z]/, message: 'Must contain at least one uppercase letter!' },
+    { pattern: /[a-z]/, message: 'Must contain at least one lowercase letter!' },
+    { pattern: /[0-9]/, message: 'Must contain at least one number!' },
+    { pattern: /[^A-Za-z0-9]/, message: 'Must contain at least one special character!' },
+  ];
 
   return (
     <section className="w-full h-full px-5 py-10">
-      {/* Main container */}
       <MainContainer className="grid grid-cols-1 lg:grid-cols-2 gap-16 bg-white">
-        {/* Left side: Form */}
         <div>
           <div className="space-y-2">
             <div className="size-[80px] relative mx-auto md:mx-0">
@@ -53,25 +95,74 @@ const Register: React.FC = () => {
             </div>
             <h2 className="text-3xl font-semibold">Create an Account</h2>
             <p className="text-gray-500">
-              Hello there, Let’s start your journey with us.
+              Hello there, Let&apos;s start your journey with us.
             </p>
           </div>
           <Form<RegisterFormValues>
+            form={form}
             name="register"
             onFinish={onFinish}
-            className="w-full grid grid-cols-1 md:grid-cols-1 gap-3 mt-5"
+            className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 mt-5"
             layout="vertical"
+            scrollToFirstError
           >
-            {/* Name Input Wrapped in Form.Item */}
             <Form.Item
-              name="name"
-              label="Name"
-              rules={[{ required: true, message: "Please input your Name!" }]}
+              name="firstName"
+              label="First Name"
+              rules={[{ required: true, message: "Please input your first name!" }]}
             >
-              <CustomInput icon={UserOutlined} placeholder="Enter your Name" />
+              <CustomInput icon={UserOutlined} placeholder="Enter your first name" />
             </Form.Item>
 
-            {/* Email Input Wrapped in Form.Item */}
+            <Form.Item
+              name="lastName"
+              label="Last Name"
+              rules={[{ required: true, message: "Please input your last name!" }]}
+            >
+              <CustomInput icon={UserOutlined} placeholder="Enter your last name" />
+            </Form.Item>
+
+            <Form.Item
+              name="dateOfBirth"
+              label="Date of Birth"
+              rules={[{ required: true, message: "Please select your date of birth!" }]}
+            >
+              <DatePicker 
+                className="w-full"
+                placeholder="Select your date of birth"
+                disabledDate={(current) => {
+                  return current && current > dayjs().endOf('day');
+                }}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="callingCode"
+              label="Country Code"
+              initialValue="+880"
+              rules={[{ required: true }]}
+            >
+              <Select>
+                <Option value="+880">+880 (Bangladesh)</Option>
+                <Option value="+1">+1 (USA)</Option>
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              name="phoneNumber"
+              label="Phone Number"
+              rules={[
+                { required: true, message: "Please input your phone number!" },
+                { pattern: /^[0-9]+$/, message: "Please enter a valid phone number!" },
+              ]}
+            >
+              <CustomInput
+                icon={PhoneOutlined}
+                placeholder="Enter your phone number"
+                type="number"
+              />
+            </Form.Item>
+
             <Form.Item
               name="email"
               label="Email"
@@ -79,58 +170,25 @@ const Register: React.FC = () => {
                 { required: true, message: "Please input your Email!" },
                 { type: "email", message: "Please enter a valid email!" },
               ]}
+              className="md:col-span-2"
             >
               <CustomInput icon={MailOutlined} placeholder="Enter your Email" />
             </Form.Item>
 
-            {/* Phone Number Input Wrapped in Form.Item */}
-            <Form.Item
-              name="phone"
-              label="Phone Number"
-              rules={[
-                { required: true, message: "Please input your Phone Number!" },
-              ]}
-            >
-              <CustomInput
-                icon={PhoneOutlined}
-                placeholder="Enter your Phone Number"
-              />
-            </Form.Item>
-
-            {/* Address Input Wrapped in Form.Item */}
             <Form.Item
               name="address"
               label="Address"
-              rules={[
-                { required: true, message: "Please input your Address!" },
-              ]}
+              rules={[{ required: true, message: "Please input your Address!" }]}
+              className="md:col-span-2"
             >
-              <CustomInput
-                icon={HomeOutlined}
-                placeholder="Enter your Address"
-              />
-            </Form.Item>
-            {/* Address Input Wrapped in Form.Item */}
-            <Form.Item
-              name="gender"
-              label="Gender"
-              rules={[
-                { required: true, message: "Please input your Gender!" },
-              ]}
-            >
-              <CustomInput
-                icon={HomeOutlined}
-                placeholder="Enter your Gender"
-              />
+              <CustomInput icon={HomeOutlined} placeholder="Enter your Address" />
             </Form.Item>
 
-            {/* Password Input Wrapped in Form.Item */}
             <Form.Item
               name="password"
               label="Password"
-              rules={[
-                { required: true, message: "Please input your Password!" },
-              ]}
+              rules={passwordRules}
+              className="md:col-span-2"
             >
               <CustomInput
                 icon={LockOutlined}
@@ -139,15 +197,23 @@ const Register: React.FC = () => {
               />
             </Form.Item>
 
-            {/* Terms and Conditions Wrapped in Form.Item */}
-            <Form.Item name="terms" valuePropName="checked"  className="col-span-full">
+            <Form.Item
+              name="terms"
+              valuePropName="checked"
+              rules={[
+                {
+                  validator: (_, value) =>
+                    value ? Promise.resolve() : Promise.reject(new Error('You must accept the terms')),
+                },
+              ]}
+              className="col-span-full"
+            >
               <Checkbox>
                 I accept the Terms of Service and Privacy Policy
               </Checkbox>
             </Form.Item>
 
-            {/* Submit Button */}
-            <Form.Item  className="col-span-full">
+            <Form.Item className="col-span-full">
               <CustomLoadingButton loading={loading}>
                 Sign Up
               </CustomLoadingButton>
@@ -173,17 +239,16 @@ const Register: React.FC = () => {
           </div>
         </div>
 
-        {/* Right side: Nurse image and circle background */}
-        <div className="w-full h-[950px] bg-[#C0E4FF]  rounded-xl hidden sm:flex justify-center items-center relative order-first md:order-last">
+        <div className="w-full h-[950px] bg-[#C0E4FF] rounded-xl hidden sm:flex justify-center items-center relative order-first md:order-last">
           <img
             src={circle.src}
-            alt=""
+            alt="Decorative circle background"
             className="w-[400px] sm:w-[450px] md:w-[480px] xl:w-[500px] -mr-14 md:-mr-16 xl:-mr-20 2xl:-mr-28"
           />
           <img
             src={nurseImage.src}
-            alt=""
-            className="h-[350px] sm:h-[390px]  md:h-[400px] xl:h-[470px] 2xl:h-[500px] bottom-0 absolute "
+            alt="Nurse illustration"
+            className="h-[350px] sm:h-[390px] md:h-[400px] xl:h-[470px] 2xl:h-[500px] bottom-0 absolute"
           />
         </div>
       </MainContainer>

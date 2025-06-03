@@ -1,19 +1,32 @@
-/* eslint-disable react/prop-types */
 "use client";
 import React from "react";
-// Define types for props
+
 interface CustomButtonProps {
   children: React.ReactNode;
   className?: string;
+  onClick?: () => void;
+  htmlType?: "button" | "submit" | "reset";
+  disabled?: boolean;
+ loading?: boolean;
+  type?: "button" | "submit" | "reset"; // Added for consistency with HTML button
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
   children,
   className = "",
+  onClick,
+  htmlType = "button",
+  disabled = false,
+  type, // Fallback to htmlType if type is not provided
 }) => {
   return (
     <button
-      className={`${className} bg-[#77C4FE] flex px-12 py-3.5 justify-center border items-center gap-5 text-white rounded-xl  hover:bg-primary hover:border-primary  transition-all duration-500`}
+      type={type || htmlType}
+      className={`${className} bg-[#77C4FE] flex px-12 py-3.5 justify-center border items-center gap-5 text-white rounded-xl hover:bg-primary hover:border-primary transition-all duration-500 ${
+        disabled ? "opacity-50 cursor-not-allowed" : ""
+      }`}
+      onClick={onClick}
+      disabled={disabled}
     >
       {children}
     </button>
