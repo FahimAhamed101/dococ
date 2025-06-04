@@ -1,55 +1,84 @@
+// src/app/team-members/TeamMemberCard.tsx
 import React from "react";
 import Image from "next/image";
+import { FacebookOutlined, InstagramOutlined, LinkedinOutlined, TwitterOutlined } from "@ant-design/icons";
 import Link from "next/link";
 
 interface TeamMember {
-  id: number;
+  id: string;
   name: string;
   degree: string;
   specialty: string;
   imageUrl: string;
+  about?: string;
+  socialMedia?: {
+    facebook?: string;
+    instagram?: string;
+    linkedin?: string;
+    X?: string;
+  };
 }
 
-function TeamMemberCard({ member }: { member: TeamMember }) {
+const TeamMemberCard: React.FC<{ member: TeamMember }> = ({ member }) => {
+
+  // Get the backend URL from environment variables
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://10.0.60.18:6060';
+  
+  // Construct the full image URL
+  const imageUrl = member.imageUrl.startsWith('http') 
+    ? member.imageUrl
+    : `${backendUrl}${member.imageUrl}`;
+
   return (
-    <div className="bg-[#EEE2EE] shadow-md rounded-xl overflow-hidden w-full max-w-xs mx-auto">
-      {/* Profile Image */}
-      <div className="relative w-full aspect-[3/4]">
-        <Link href={`/team-members/${member.id}`} className="block h-full">
-          <Image
-            src={member.imageUrl}
-            alt={member.name}
-            fill
-            className="object-cover"
-            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-          />
-        </Link>
+    <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">
+      <div className="relative h-64 w-full">
+        <Image
+          src={imageUrl}
+          alt={member.name}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
       </div>
-
-      {/* Profile Info */}
-      <div className="p-4 text-gray-800 space-y-2">
-        <h2 className="text-xl font-semibold line-clamp-1">{member.name}</h2>
-        <p className="text-gray-600 line-clamp-1">{member.degree}</p>
-
-        {/* Specialties */}
-        <div className="mt-3">
-          <p className="text-sm font-medium text-gray-700 mb-1">Specialty</p>
-          <div className="relative w-full h-12 rounded overflow-hidden">
-            <Image
-              src="https://i.ibb.co.com/R64gCDv/Rectangle-18831.png"
-              alt="Specialty background"
-              fill
-              className="object-cover"
-              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-            />
-            <span className="absolute top-1/2 left-4 -translate-y-1/2 text-white text-sm font-semibold line-clamp-1">
-              {member.specialty}
-            </span>
+      <div className="p-4">
+       <Link
+            href={`/team-members/${member.id}`}
+            className="text-secondary font-semibold hover:underline transition-all"
+          >
+           <h3 className="text-lg font-semibold text-gray-800">{member.name}</h3>
+          </Link>
+        <p className="text-sm text-blue-600">{member.degree}</p>
+        <p className="text-sm text-gray-600 mt-1">{member.specialty}</p>
+        {member.about && (
+          <p className="text-xs text-gray-500 mt-2 line-clamp-3">{member.about}</p>
+        )}
+        {member.socialMedia && (
+          <div className="flex gap-2 mt-3">
+            {member.socialMedia.facebook && (
+              <a href={member.socialMedia.facebook} target="_blank" rel="noopener noreferrer">
+                <FacebookOutlined className="text-blue-600" />
+              </a>
+            )}
+            {member.socialMedia.instagram && (
+              <a href={member.socialMedia.instagram} target="_blank" rel="noopener noreferrer">
+                <InstagramOutlined className="text-pink-600" />
+              </a>
+            )}
+            {member.socialMedia.linkedin && (
+              <a href={member.socialMedia.linkedin} target="_blank" rel="noopener noreferrer">
+                <LinkedinOutlined className="text-blue-700" />
+              </a>
+            )}
+            {member.socialMedia.X && (
+              <a href={member.socialMedia.X} target="_blank" rel="noopener noreferrer">
+                <TwitterOutlined className="text-black" />
+              </a>
+            )}
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
-}
+};
 
 export default TeamMemberCard;

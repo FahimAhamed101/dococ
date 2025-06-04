@@ -1,105 +1,10 @@
+"use client"
 import React from "react";
 import { HomeOutlined } from "@ant-design/icons";
 import MainContainer from "@/components/Shared/MainContainer/MainContainer";
 import CustomBreadcrumb from "@/components/UI/CustomBreadcrumb";
 import TeamMemberCard from "./TeamMemberCard";
-
-// Define the TeamMember type (if it's not globally defined already)
-interface TeamMember {
-  id: number;
-  name: string;
-  degree: string;
-  specialty: string;
-  imageUrl: string;
-}
-
-// Sample data for team members
-const teamMembers: TeamMember[] = [
-  {
-    id: 1,
-    name: "Dr. Rakib  Islam",
-    degree: "MBBS, MCPS, MD",
-    specialty: "General surgery",
-    imageUrl: "https://i.ibb.co.com/87g3Kwr/doctor.png", // Replace with the actual image URL
-  },
-  {
-    id: 2,
-    name: "Dr. Rakib  Islam",
-    degree: "MBBS, MCPS, MD",
-    specialty: "General surgery",
-    imageUrl: "https://i.ibb.co.com/87g3Kwr/doctor.png",
-  },
-  {
-    id: 3,
-    name: "Dr. Rakib  Islam",
-    degree: "MBBS, MCPS, MD",
-    specialty: "General surgery",
-    imageUrl: "https://i.ibb.co.com/87g3Kwr/doctor.png",
-  },
-  {
-    id: 4,
-    name: "Dr. Rakib  Islam",
-    degree: "MBBS, MCPS, MD",
-    specialty: "General surgery",
-    imageUrl: "https://i.ibb.co.com/87g3Kwr/doctor.png",
-  },
-  {
-    id: 5,
-    name: "Dr. Rakib  Islam",
-    degree: "MBBS, MCPS, MD",
-    specialty: "General surgery",
-    imageUrl: "https://i.ibb.co.com/87g3Kwr/doctor.png",
-  },
-  {
-    id: 6,
-    name: "Dr. Rakib  Islam",
-    degree: "MBBS, MCPS, MD",
-    specialty: "General surgery",
-    imageUrl: "https://i.ibb.co.com/87g3Kwr/doctor.png",
-  },
-  {
-    id: 7,
-    name: "Dr. Rakib  Islam",
-    degree: "MBBS, MCPS, MD",
-    specialty: "General surgery",
-    imageUrl: "https://i.ibb.co.com/87g3Kwr/doctor.png",
-  },
-  {
-    id: 8,
-    name: "Dr. Rakib  Islam",
-    degree: "MBBS, MCPS, MD",
-    specialty: "General surgery",
-    imageUrl: "https://i.ibb.co.com/87g3Kwr/doctor.png",
-  },
-  {
-    id: 9,
-    name: "Dr. Rakib  Islam",
-    degree: "MBBS, MCPS, MD",
-    specialty: "General surgery",
-    imageUrl: "https://i.ibb.co.com/87g3Kwr/doctor.png",
-  },
-  {
-    id: 10,
-    name: "Dr. Rakib  Islam",
-    degree: "MBBS, MCPS, MD",
-    specialty: "General surgery",
-    imageUrl: "https://i.ibb.co.com/87g3Kwr/doctor.png",
-  },
-  {
-    id: 11,
-    name: "Dr. Rakib  Islam",
-    degree: "MBBS, MCPS, MD",
-    specialty: "General surgery",
-    imageUrl: "https://i.ibb.co.com/87g3Kwr/doctor.png",
-  },
-  {
-    id: 12,
-    name: "Dr. Rakib  Islam",
-    degree: "MBBS, MCPS, MD",
-    specialty: "General surgery",
-    imageUrl: "https://i.ibb.co.com/87g3Kwr/doctor.png",
-  },
-];
+import { useGetTeamMembersQuery } from "@/redux/features/auth/authApi"
 
 const breadcrumbItems = [
   {
@@ -117,15 +22,62 @@ const breadcrumbItems = [
 ];
 
 function TeamMembers() {
+  const { data, isLoading, isError } = useGetTeamMembersQuery({
+    page: 1,
+    limit: 12,
+    email: "bashar.info@gmail.com"
+  });
+
+  if (isLoading) {
+    return (
+      <section className="w-full px-5 py-10">
+        <MainContainer>
+          <CustomBreadcrumb items={breadcrumbItems} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 my-10">
+            {[...Array(4)].map((_, index) => (
+              <div key={index} className="animate-pulse">
+                <div className="h-64 bg-gray-200 rounded-lg"></div>
+              </div>
+            ))}
+          </div>
+        </MainContainer>
+      </section>
+    );
+  }
+
+  if (isError) {
+    return (
+      <section className="w-full px-5 py-10">
+        <MainContainer>
+          <CustomBreadcrumb items={breadcrumbItems} />
+          <div className="text-center py-10">
+            <p className="text-red-500">Failed to load team members</p>
+          </div>
+        </MainContainer>
+      </section>
+    );
+  }
+
+  const teamMembers = data?.data?.attributes?.results || [];
+
   return (
     <section className="w-full px-5 py-10">
       <MainContainer>
-        {/* Breadcrumb */}
         <CustomBreadcrumb items={breadcrumbItems} />
-        {/* Team Members Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 my-10">
-          {teamMembers.map((member, index) => (
-            <TeamMemberCard key={index} member={member} />
+          {teamMembers.map((member) => (
+            <TeamMemberCard 
+              key={member.id} 
+              member={{
+                id: member.id,
+                name: member.fullName,
+                degree: member.designation,
+                specialty: member.specialties,
+                imageUrl: member.profileImage || "https://i.ibb.co.com/87g3Kwr/doctor.png",
+                about: member.about,
+                socialMedia: member.media
+              }} 
+            />
           ))}
         </div>
       </MainContainer>

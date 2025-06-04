@@ -13,6 +13,9 @@ import profile from "@/assets/profile.png";
 import DropdownModal from "./DropdownModal";
 import LogoutModal from "./LogoutModal"; // Added import for LogoutModal
 import { usePathname } from "next/navigation";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -26,6 +29,8 @@ const navLinks = [
 ];
 
 const Navbar = () => {
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  // const { user, isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
@@ -103,14 +108,9 @@ const Navbar = () => {
         {/* Right side buttons */}
         <div className="flex items-center gap-1 sm:gap-2 md:gap-3">
           {/* Book Now button - hidden on mobile, different sizes */}
-          <div className="hidden sm:block">
-            <Link href={"/login"}>
-              <CustomButton className="bg-sky-300 text-xs sm:text-sm md:text-base lg:text-lg">
-                Book Now
-              </CustomButton>
-            </Link>
-          </div>
 
+ {isAuthenticated ? (
+<>
           {/* Mail button - responsive sizing */}
           <button
             className="bg-sky-200 text-sky-700 flex flex-col justify-center items-center p-1 xs:p-1.5 sm:p-1.5 md:p-2 rounded-full hover:bg-sky-300 transition-colors"
@@ -147,8 +147,19 @@ const Navbar = () => {
             icon={<MenuOutlined className="text-base sm:text-lg" />}
             onClick={showDrawer}
           />
-        </div>
+          </>
 
+        
+  ) : (  <div className="hidden sm:block">
+            <Link href={"/login"}>
+              <CustomButton className="bg-sky-300 text-xs sm:text-sm md:text-base lg:text-lg">
+                Book Now
+              </CustomButton>
+            </Link>
+          </div>
+          )}
+        </div>
+ 
         <DropdownModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}

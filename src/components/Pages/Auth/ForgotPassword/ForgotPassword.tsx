@@ -10,6 +10,7 @@ import CustomLoadingButton from "@/components/UI/CustomLoadingButton";
 import React from "react";
 import CustomInput from "@/components/UI/CustomInput";
 import { useRouter } from "next/navigation";
+import { useForgotPasswordMutation } from "@/redux/features/auth/authApi"; // Import the hook
 
 interface IForgotPasswordProps {
   email: string;
@@ -17,17 +18,22 @@ interface IForgotPasswordProps {
 
 const ForgotPassword = () => {
   const router = useRouter();
-  const [loading, setLoading] = React.useState(false);
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation(); // Use the mutation hook
 
-  // Handle form submission
-  const onFinish = (values: IForgotPasswordProps) => {
-    setLoading(true);
-    // Simulate a network request
-    setTimeout(() => {
-      router.push(`/verify-email?email=${values.email}`);
-      setLoading(false);
-    }, 2000);
-  };
+ const onFinish = async (values: IForgotPasswordProps) => {
+  try {
+    // Pass an object with email property instead of just the string
+    const response = await forgotPassword({ email: values.email }).unwrap();
+    
+    if (response.code === 200) {
+      // Navigate to verify-email page with email and OTP
+      router.push(`/verify-email?email=${values.email}&otp=${response.data.attributes.oneTimeCode}`);
+    }
+  } catch (error) {
+    // Handle error (you might want to show a toast or message)
+    console.error("Forgot password error:", error);
+  }
+};
 
   return (
     <section className="w-full h-full px-5 py-10">
@@ -64,15 +70,15 @@ const ForgotPassword = () => {
             
             <Form.Item>
               <div className="mt-2">
-                <CustomLoadingButton loading={loading}>
-                  Get Otp
+                <CustomLoadingButton loading={isLoading}>
+                  Get OTP
                 </CustomLoadingButton>
               </div>
             </Form.Item>
           </Form>
         </div>
 
-      <div className="w-full h-[650px] bg-[#C0E4FF]  rounded-xl hidden sm:flex justify-center items-center relative order-first md:order-last">
+        <div className="w-full h-[650px] bg-[#C0E4FF] rounded-xl hidden sm:flex justify-center items-center relative order-first md:order-last">
           <img
             src={circle.src}
             alt=""
@@ -81,7 +87,7 @@ const ForgotPassword = () => {
           <img
             src={nurseImage.src}
             alt=""
-            className="h-[350px] sm:h-[390px]  md:h-[400px] xl:h-[470px] 2xl:h-[500px] bottom-0 absolute "
+            className="h-[350px] sm:h-[390px] md:h-[400px] xl:h-[470px] 2xl:h-[500px] bottom-0 absolute"
           />
         </div>
       </MainContainer>

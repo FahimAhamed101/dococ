@@ -2,9 +2,9 @@
 "use client"
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/UI/Dialog"
-import { useLogoutMutation } from "@/redux/features/auth/authApi";
+//import { useLogoutMutation } from "@/redux/features/auth/authApi";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+//import { useEffect } from "react";
 
 interface LogoutModalProps {
   isOpen: boolean;
@@ -13,19 +13,15 @@ interface LogoutModalProps {
 
 export default function LogoutModal({ isOpen, onClose }: LogoutModalProps) {
   const router = useRouter();
-  const [logout, { isSuccess, isLoading }] = useLogoutMutation();
+ // const [logout, { isSuccess, isLoading }] = useLogoutMutation();
 
   const handleCancel = () => {
     onClose();
   };
 
   const handleLogout = () => {
-    logout();
-  };
-
-  useEffect(() => {
-    if (isSuccess) {
-      // Clear tokens from storage
+   // logout();
+  // Clear tokens from storage
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       
@@ -35,8 +31,23 @@ export default function LogoutModal({ isOpen, onClose }: LogoutModalProps) {
       // Redirect to login
       router.push('/login');
       onClose();
-    }
-  }, [isSuccess, router, onClose]);
+
+  };
+
+ // useEffect(() => {
+  //  if (isSuccess) {
+      // Clear tokens from storage
+  //    localStorage.removeItem('accessToken');
+  //    localStorage.removeItem('refreshToken');
+      
+      // Clear Redux state (you'll need to dispatch your logout action)
+      // dispatch(logoutAction());
+      
+      // Redirect to login
+  //    router.push('/login');
+   //   onClose();
+   // }
+ // }, [isSuccess, router, onClose]);
 
   if (!isOpen) return null;
 
@@ -53,17 +64,17 @@ export default function LogoutModal({ isOpen, onClose }: LogoutModalProps) {
         <div className="flex gap-3 mt-6">
           <button
             onClick={handleCancel}
-            disabled={isLoading}
+            //disabled={isLoading}
             className="flex-1 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-lg h-10 font-medium disabled:opacity-50"
           >
             No
           </button>
           <button
             onClick={handleLogout}
-            disabled={isLoading}
+           // disabled={isLoading} {isLoading ? 'Logging out...' : 'Yes'}
             className="flex-1 bg-red-500 hover:bg-red-600 text-white rounded-lg h-10 font-medium border-0 disabled:opacity-50"
           >
-            {isLoading ? 'Logging out...' : 'Yes'}
+          yes
           </button>
         </div>
       </DialogContent>

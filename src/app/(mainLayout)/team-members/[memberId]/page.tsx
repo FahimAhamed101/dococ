@@ -1,9 +1,14 @@
 import MemberDetails from "@/components/Pages/TeamMembers/MemberDetails/MemberDetails";
 import React from "react";
 
-const page = ({ params }: { params: { memberId: number } }) => {
-  const { memberId } = params;
-  return <MemberDetails memberId={memberId} />;
+interface PageProps {
+  params: { 
+    memberId: string // Changed to string to match API expectation
+  }
+}
+
+const Page = ({ params }: PageProps) => {
+  return <MemberDetails memberId={params.memberId} />;
 };
 
-export default page;
+export default Page;

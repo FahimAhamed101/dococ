@@ -69,7 +69,7 @@ const Login: React.FC = () => {
           sessionStorage.setItem('refreshToken', response.data.attributes.tokens.refresh.token);
         }
 
-        router.push('/dashboard');
+        router.push('/');
       }
     } catch (error: unknown) {
       const err = error as ApiError;
