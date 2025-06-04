@@ -2,54 +2,63 @@
 import MainContainer from "@/components/Shared/MainContainer/MainContainer";
 import Image from "next/image";
 import { useState } from "react";
-import line from "@/assets/faq/line.png"; // Assuming line.png is a design element
+import line from "@/assets/faq/line.png";
 import { FiMinus, FiPlus } from "react-icons/fi";
-
-// Define the types for FAQ items
-interface FaqItem {
-  question: string;
-  answer: string;
-}
+import { useGetFaqsQuery } from "@/redux/features/auth/authApi";
+import { Skeleton } from "antd";
 
 const Faq = () => {
-  // FAQ data
-  const faqs: FaqItem[] = [
-    {
-      question: "Can I see who reads my email campaigns?",
-      answer:
-        "Lorem ipsum dolor sit amet consectetur. Convallis cras placerat dignissim aliquam massa. Aliquet volutpat rhoncus in convallis consectetur. Cras adipiscing volutpat non hac enim odio enim.",
-    },
-    {
-      question: "Do you offer non-profit discounts?",
-      answer:
-        "Lorem ipsum dolor sit amet consectetur. Convallis cras placerat dignissim aliquam massa. Aliquet volutpat rhoncus in convallis consectetur. Cras adipiscing volutpat non hac enim odio enim.",
-    },
-    {
-      question: "Can I see who reads my email campaigns?",
-      answer:
-        "Lorem ipsum dolor sit amet consectetur. Convallis cras placerat dignissim aliquam massa. Aliquet volutpat rhoncus in convallis consectetur. Cras adipiscing volutpat non hac enim odio enim.",
-    },
-    {
-      question: "Can I see who reads my email campaigns?",
-      answer:
-        "Lorem ipsum dolor sit amet consectetur. Convallis cras placerat dignissim aliquam massa. Aliquet volutpat rhoncus in convallis consectetur. Cras adipiscing volutpat non hac enim odio enim.",
-    },
-  ];
-
   // State to manage which FAQ is open
   const [openIndex, setOpenIndex] = useState<number | null>(0); // By default, the first FAQ is open
+  const { data, isLoading, isError } = useGetFaqsQuery({});
 
   // Toggle function to open/close FAQs
   const toggleFaq = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
+  if (isLoading) {
+    return (
+      <section className="w-full px-5 py-16 bg-[#F1F9FF]">
+        <MainContainer>
+          <div className="text-center space-y-3">
+            <Skeleton.Input active size="large" className="w-1/2 mx-auto" />
+            <Skeleton.Image active className="mx-auto" />
+            <Skeleton paragraph={{ rows: 2 }} active />
+          </div>
+          <div className="mt-12 space-y-4">
+            {[...Array(4)].map((_, index) => (
+              <Skeleton key={index} active paragraph={{ rows: 2 }} />
+            ))}
+          </div>
+        </MainContainer>
+      </section>
+    );
+  }
+
+  if (isError) {
+    return (
+      <section className="w-full px-5 py-16 bg-[#F1F9FF]">
+        <MainContainer>
+          <div className="text-center">
+            <h1 className="text-4xl font-semibold text-[#32526B]">
+              Frequently Asked Questions
+            </h1>
+            <p className="text-red-500 mt-4">Failed to load FAQs. Please try again later.</p>
+          </div>
+        </MainContainer>
+      </section>
+    );
+  }
+
+  const faqs = data?.data?.attributes?.results || [];
+
   return (
     <section className="w-full px-5 py-16 bg-[#F1F9FF]">
       <MainContainer>
         <div className="text-center space-y-3">
           <h1 className="text-4xl font-semibold text-[#32526B]">
-            Frequently Ask Question
+            Frequently Asked Questions
           </h1>
           <Image
             width={400}
@@ -69,12 +78,12 @@ const Faq = () => {
         <div className="mt-12 space-y-4">
           {faqs.map((faq, index) => (
             <div
-              key={index}
+              key={faq.id}
               onClick={() => toggleFaq(index)}
-              className={`w-full p-5 cursor-pointer transition-all duration-500 ease-in-out  rounded-xl ${
+              className={`w-full p-5 cursor-pointer transition-all duration-500 ease-in-out rounded-xl ${
                 openIndex === index
                   ? "bg-[#6CB2E7]"
-                  : "border-b border-gray-900 "
+                  : "border-b border-gray-900"
               }`}
             >
               <div className="flex justify-between items-center">

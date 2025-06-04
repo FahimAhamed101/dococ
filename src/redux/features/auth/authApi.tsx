@@ -184,6 +184,19 @@ interface TeamMember {
   };
 }
 
+interface ContactRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  address: string;
+  message: string;
+}
+
+interface ContactResponse {
+  code: number;
+  message: string;
+}
 
 interface TeamMembersResponse {
   code: number;
@@ -198,6 +211,74 @@ interface TeamMembersResponse {
     };
   };
 }
+
+interface FaqItem {
+  id: string;
+  question: string;
+  answer: string;
+  createdAt?: string;
+}
+
+interface FaqResponse {
+  code: number;
+  message: string;
+  data: {
+    attributes: {
+      results: FaqItem[];
+      page: number;
+      limit: number;
+      totalPages: number;
+      totalResults: number;
+    };
+  };
+}
+
+interface ChatBotRequest {
+  model: string;
+  prompt: string;
+}
+
+interface ChatBotResponse {
+  code: number;
+  message: string;
+  data: {
+    attributes: {
+      candidates: Array<{
+        content: {
+          parts: Array<{
+            text: string;
+          }>;
+          role: string;
+        };
+        finishReason: string;
+        citationMetadata?: {
+          citationSources: Array<{
+            startIndex: number;
+            endIndex: number;
+            uri: string;
+          }>;
+        };
+        avgLogprobs?: number;
+      }>;
+      usageMetadata: {
+        promptTokenCount: number;
+        candidatesTokenCount: number;
+        totalTokenCount: number;
+        promptTokensDetails: Array<{
+          modality: string;
+          tokenCount: number;
+        }>;
+        candidatesTokensDetails: Array<{
+          modality: string;
+          tokenCount: number;
+        }>;
+      };
+      modelVersion: string;
+      responseId: string;
+    };
+  };
+}
+
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({ 
@@ -285,6 +366,37 @@ resetPassword: builder.mutation<ResetPasswordResponse, ResetPasswordRequest>({
     getTeamMemberDetails: builder.query<TeamMemberDetailsResponse, string>({
   query: (memberId) => `/team/member/${memberId}`,
 }),
+
+contactUs: builder.mutation<ContactResponse, ContactRequest>({
+  query: (contactData) => ({
+    url: '/contact',
+    method: 'POST',
+    body: contactData,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }),
+}),
+getFaqs: builder.query<FaqResponse, { page?: number; limit?: number }>({
+  query: ({ page = 1, limit = 10 } = {}) => ({
+    url: '/faq',
+    params: {
+      page,
+      limit,
+    },
+  }),
+}),
+chatWithBot: builder.mutation<ChatBotResponse, ChatBotRequest>({
+      query: (body) => ({
+        url: '/gemini/conversation',
+        method: 'POST',
+        body,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+    }),
+ 
     // Add other endpoints as needed here
   }),
 });
@@ -294,5 +406,5 @@ export const {
   useLoginMutation, 
   useRegisterMutation,
   useGetProfileQuery,
-  useUpdateProfileMutation,useLogoutMutation,useForgotPasswordMutation,useVerifyEmailMutation,useResetPasswordMutation,useGetTeamMembersQuery,useGetTeamMemberDetailsQuery
+  useUpdateProfileMutation,useChatWithBotMutation,useGetFaqsQuery,useLogoutMutation,useContactUsMutation,useForgotPasswordMutation,useVerifyEmailMutation,useResetPasswordMutation,useGetTeamMembersQuery,useGetTeamMemberDetailsQuery
 } = authApi;

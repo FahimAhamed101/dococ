@@ -6,6 +6,7 @@ import CustomLoadingButton from "@/components/UI/CustomLoadingButton";
 import { CloseOutlined, HomeOutlined, MailOutlined, UserOutlined, MessageOutlined } from "@ant-design/icons";
 import { Form } from "antd";
 import React from "react";
+import { useChatWithBotMutation } from "@/redux/features/auth/authApi"; // Update the import path
 
 // Define form values interface
 interface ChatBotFormValues {
@@ -15,6 +16,9 @@ interface ChatBotFormValues {
 }
 
 const ChatBot: React.FC = () => {
+  const [form] = Form.useForm();
+  const [chatWithBot, { isLoading, isError, data }] = useChatWithBotMutation();
+  
   const breadcrumbItems = [
     {
       href: "/",
@@ -31,8 +35,21 @@ const ChatBot: React.FC = () => {
   ];
 
   // Handle form submission
-  const handleSubmit = (values: ChatBotFormValues) => {
-    console.log(values);
+  const handleSubmit = async (values: ChatBotFormValues) => {
+    try {
+      const response = await chatWithBot({
+        model: "gemini-1.5-flash",
+        prompt: values.message,
+      }).unwrap();
+      
+      console.log("AI Response:", response);
+      // You can display the response to the user here
+      // For example, you might want to show it in a chat UI
+      
+    } catch (err) {
+      console.error("Failed to get response from AI:", err);
+      // Handle error (show toast, etc.)
+    }
   };
 
   return (
@@ -67,6 +84,7 @@ const ChatBot: React.FC = () => {
             {/* Chat form */}
             <div className="p-6 md:p-8">
               <Form
+                form={form}
                 onFinish={handleSubmit}
                 layout="vertical"
                 className="space-y-4"
@@ -78,7 +96,7 @@ const ChatBot: React.FC = () => {
                 >
                   <CustomInput
                     placeholder="Enter your name"
-                  icon={UserOutlined}
+                    icon={UserOutlined}
                     className="border-gray-300 hover:border-blue-400 focus:border-blue-500"
                   />
                 </Form.Item>
@@ -93,7 +111,7 @@ const ChatBot: React.FC = () => {
                 >
                   <CustomInput
                     placeholder="Enter your email"
-               icon={MailOutlined}
+                    icon={MailOutlined}
                     className="border-gray-300 hover:border-blue-400 focus:border-blue-500"
                   />
                 </Form.Item>
@@ -116,14 +134,33 @@ const ChatBot: React.FC = () => {
                 <Form.Item>
                   <div className="mt-6">
                     <CustomLoadingButton 
+                      loading={isLoading}
                       className="w-full py-4 bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white font-semibold rounded-lg shadow-md transition-all transform hover:scale-[1.02]"
-                    
                     >
-                      Start Chat Now
+                      {isLoading ? "Processing..." : "Start Chat Now"}
                     </CustomLoadingButton>
                   </div>
                 </Form.Item>
               </Form>
+
+              {/* Display the response if available */}
+              {data && (
+                <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                  <h3 className="font-semibold text-gray-800 mb-2">AI Response:</h3>
+                  <p className="text-gray-700 whitespace-pre-wrap">
+                    {data.data.attributes.candidates[0].content.parts[0].text}
+                  </p>
+                </div>
+              )}
+
+              {/* Display error if any */}
+              {isError && (
+                <div className="mt-6 p-4 bg-red-50 rounded-lg">
+                  <p className="text-red-600">
+                    Error: Failed to get response from AI. Please try again.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

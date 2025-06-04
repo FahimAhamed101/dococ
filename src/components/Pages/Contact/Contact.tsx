@@ -9,18 +9,25 @@ import {
   PhoneOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Form } from "antd";
+import { Form, message } from "antd";
 import { CiLocationOn } from "react-icons/ci";
 import { IoMdCall, IoMdMail } from "react-icons/io";
+import { useContactUsMutation } from "@/redux/features/auth/authApi";
 
-// Define the interface for form values
 interface ContactFormValues {
   firstName: string;
   lastName: string;
   email: string;
-  phone: string;
+  phoneNumber: string;
   address: string;
   message: string;
+}
+
+interface ApiError {
+  data?: {
+    message?: string;
+  };
+  status?: number;
 }
 
 const breadcrumbItems = [
@@ -38,26 +45,43 @@ const breadcrumbItems = [
   },
 ];
 
-// Define the Contact component with TypeScript
 const Contact: React.FC = () => {
-  const [form] = Form.useForm<ContactFormValues>(); // Use the defined interface for form values
+  const [form] = Form.useForm<ContactFormValues>();
+  const [contactUs, { isLoading }] = useContactUsMutation();
 
-  const handleSubmit = (values: ContactFormValues) => {
-    console.log("Form Submitted:", values);
+  const handleSubmit = async (values: ContactFormValues) => {
+    try {
+      const response = await contactUs({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        phoneNumber: values.phoneNumber,
+        address: values.address,
+        message: values.message
+      }).unwrap();
+      
+      if (response.code === 200) {
+        message.success(response.message || "Message sent successfully!");
+        form.resetFields();
+      }
+    } catch (error: unknown) {
+      console.error("Contact submission error:", error);
+      const apiError = error as ApiError;
+      message.error(apiError?.data?.message || "Failed to send message. Please try again.");
+    }
   };
 
   return (
     <section className="w-full px-5 py-10 bg-[#F1F9FF]">
       <MainContainer>
         <CustomBreadcrumb items={breadcrumbItems} />
-        {/* Contact Section */}
         <div className="w-full flex flex-col md:flex-row gap-8 md:gap-16 my-16">
           {/* Left Section */}
           <div className="w-full md:w-[40%]">
             <div className="bg-[#D5EDFF] p-10 rounded-2xl">
               <div className="mb-16 flex gap-5">
                 <div className="bg-[#77C4FE] p-2 rounded-full size-14 flex justify-center items-center">
-                  <IoMdCall  className="text-white" size={20} />
+                  <IoMdCall className="text-white" size={20} />
                 </div>
                 <div className="mt-2">
                   <h1 className="text-gray-800 text-xl font-semibold">
@@ -106,7 +130,6 @@ const Contact: React.FC = () => {
               onFinish={handleSubmit}
               className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-4"
             >
-              {/* First Name Input Wrapped in Form.Item */}
               <Form.Item
                 name="firstName"
                 label="First Name" 
@@ -116,11 +139,11 @@ const Contact: React.FC = () => {
               >
                 <CustomInput
                   icon={UserOutlined}
-                  placeholder="Enter your first name" className="bg-[#77C4FE]"
+                  placeholder="Enter your first name"
+                  className="bg-[#77C4FE]"
                 />
               </Form.Item>
 
-              {/* Last Name Input Wrapped in Form.Item */}
               <Form.Item
                 name="lastName"
                 label="Last Name"
@@ -134,7 +157,6 @@ const Contact: React.FC = () => {
                 />
               </Form.Item>
 
-              {/* Email Input Wrapped in Form.Item */}
               <Form.Item
                 name="email"
                 label="Your Email"
@@ -152,9 +174,8 @@ const Contact: React.FC = () => {
                 />
               </Form.Item>
 
-              {/* Phone Number Input Wrapped in Form.Item */}
               <Form.Item
-                name="phone"
+                name="phoneNumber"
                 label="Your Phone Number"
                 rules={[
                   {
@@ -169,7 +190,6 @@ const Contact: React.FC = () => {
                 />
               </Form.Item>
 
-              {/* Address Input Wrapped in Form.Item */}
               <Form.Item
                 name="address"
                 label="Your Address"
@@ -184,7 +204,6 @@ const Contact: React.FC = () => {
                 />
               </Form.Item>
 
-              {/* Message Input Wrapped in Form.Item */}
               <Form.Item
                 name="message"
                 label="Your Message"
@@ -196,9 +215,10 @@ const Contact: React.FC = () => {
                 <CustomInput placeholder="Write your message here" isTextArea />
               </Form.Item>
 
-              {/* Submit Button */}
               <Form.Item className="col-span-full">
-                <CustomLoadingButton >Submit</CustomLoadingButton>
+                <CustomLoadingButton loading={isLoading}>
+                  {isLoading ? "Sending..." : "Submit"}
+                </CustomLoadingButton>
               </Form.Item>
             </Form>
           </div>
