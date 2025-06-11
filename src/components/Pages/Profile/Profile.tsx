@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, ChangeEvent } from "react";
 import Image from "next/image";
-import { Form, message, Input, Modal } from "antd";
+import { Form, message, Input, Modal, Skeleton } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { HiOutlineHome } from "react-icons/hi";
 import { IoCameraOutline } from "react-icons/io5";
@@ -18,12 +18,6 @@ interface BreadcrumbItem {
   href?: string;
   title: React.ReactNode;
 }
-
-
-
-
-
-
 
 interface FormValues {
   firstName: string;
@@ -110,10 +104,15 @@ const ProfileForm: React.FC = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [files, setFiles] = useState<File[]>([]);
   const [open, setOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   const { data: profile, isLoading, isError, refetch } = useGetProfileQuery(undefined);
   const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation();
   const [uploadDocument, { isLoading: isDocumentSubmitting }] = useUploadDocumentMutation();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     if (profile?.data?.attributes) {
@@ -262,15 +261,38 @@ const ProfileForm: React.FC = () => {
     }
   };
 
-  if (isLoading) return <div className="text-center py-10">Loading profile...</div>;
-  if (isError) return <div className="text-center py-10">Error loading profile</div>;
+  if (!isClient) {
+    return (
+      <div className="min-h-screen px-4 sm:px-6 lg:px-10 py-10">
+        <MainContainer>
+          <Skeleton active paragraph={{ rows: 10 }} />
+        </MainContainer>
+      </div>
+    );
+  }
+
+  if (isLoading) return (
+    <div className="min-h-screen px-4 sm:px-6 lg:px-10 py-10">
+      <MainContainer>
+        <Skeleton active paragraph={{ rows: 10 }} />
+      </MainContainer>
+    </div>
+  );
+
+  if (isError) return (
+    <div className="min-h-screen px-4 sm:px-6 lg:px-10 py-10">
+      <MainContainer>
+        <div className="text-center py-10">Error loading profile</div>
+      </MainContainer>
+    </div>
+  );
 
   const profileData = profile?.data?.attributes;
   const documents = profileData?.documents || [];
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://10.0.60.18:6060';
   const imageUrl = profileData?.user?.profileImage?.startsWith('http') 
     ? previewImage
-    : `${backendUrl}${profileData?.user?.profileImage}`;
+    : `${backendUrl}/${profileData?.user?.profileImage}`;
 
   return (
     <section className="min-h-screen px-4 sm:px-6 lg:px-10 py-10">
@@ -288,6 +310,7 @@ const ProfileForm: React.FC = () => {
                 src={imageUrl}
                 alt="Profile picture"
                 className="rounded-full object-cover w-full h-full"
+                priority
               />
               {isEditing && (
                 <>
