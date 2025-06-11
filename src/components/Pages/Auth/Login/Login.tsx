@@ -55,19 +55,21 @@ const Login: React.FC = () => {
       if (response.code === 200) {
         message.success(response.message);
         
-        dispatch(setCredentials({
-          user: response.data.attributes.user,
-          tokens: response.data.attributes.tokens,
-          isAuthenticated: true
-        }));
+        const { user, tokens } = response.data.attributes;
+  
+  dispatch(setCredentials({
+    user: {
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    },
+    tokens,
+    isAuthenticated: true,
+  }));
 
-        if (values.remember) {
-          localStorage.setItem('accessToken', response.data.attributes.tokens.access.token);
-          localStorage.setItem('refreshToken', response.data.attributes.tokens.refresh.token);
-        } else {
-          sessionStorage.setItem('accessToken', response.data.attributes.tokens.access.token);
-          sessionStorage.setItem('refreshToken', response.data.attributes.tokens.refresh.token);
-        }
+  // Store access token separately for API requests
+  localStorage.setItem('accessToken', tokens.access.token);
 
         router.push('/');
       }

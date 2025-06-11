@@ -29,9 +29,10 @@ const navLinks = [
 ];
 
 const Navbar = () => {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
   // const { user, isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [drawerVisible, setDrawerVisible] = useState(false);
+
   const pathname = usePathname();
   const isHomePage = pathname === "/";
   const showDrawer = () => setDrawerVisible(true);
@@ -109,7 +110,7 @@ const Navbar = () => {
         <div className="flex items-center gap-1 sm:gap-2 md:gap-3">
           {/* Book Now button - hidden on mobile, different sizes */}
 
- {isAuthenticated ? (
+ {user ? (
 <>
           {/* Mail button - responsive sizing */}
           <button

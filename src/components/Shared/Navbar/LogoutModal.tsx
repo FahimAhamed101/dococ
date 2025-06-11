@@ -23,7 +23,8 @@ export default function LogoutModal({ isOpen, onClose }: LogoutModalProps) {
    // logout();
   // Clear tokens from storage
       localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+
+      localStorage.removeItem('auth');
       
       // Clear Redux state (you'll need to dispatch your logout action)
       // dispatch(logoutAction());
