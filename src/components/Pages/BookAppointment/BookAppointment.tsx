@@ -6,19 +6,24 @@ import CustomDatePicker from "@/components/UI/CustomDatePicker";
 import CustomInput from "@/components/UI/CustomInput";
 import CustomLoadingButton from "@/components/UI/CustomLoadingButton";
 import { ClockCircleOutlined, HomeOutlined } from "@ant-design/icons";
-import { Form, Radio, TimePicker } from "antd";
-import circle from "@/assets/circle.svg"
+import { Form, Radio, TimePicker, message } from "antd";
+import circle from "@/assets/circle.svg";
 import Image from "next/image";
+import { useBookAppointmentMutation } from "@/redux/features/auth/appontmentApi";
+import dayjs, { Dayjs } from "dayjs";
+
 interface FormValues {
   name: string;
   email: string;
   phone: string;
   address: string;
-  preferredTime: string;
-  preferredDate: string;
-  reasonForVisit: string;
+  preferredTime: Dayjs;
+  preferredDate: Dayjs;
+  reasonForVisit: 'Old Patient Visit' | 'New Patient Visit' | 'Specific Concern' | 'other';
   department: string;
   bodyPart: string;
+  age: number;
+  gender: 'male' | 'female' | 'other';
 }
 
 // Breadcrumb items
@@ -45,9 +50,9 @@ const departmentOptions = [
 ];
 
 const visitReasons = [
-  { label: "Old Patient Visit", value: "oldPatient" },
-  { label: "New Patient Visit", value: "newPatient" },
-  { label: "Specific Concern", value: "specificConcern" },
+  { label: "Old Patient Visit", value: "Old Patient Visit" },
+  { label: "New Patient Visit", value: "New Patient Visit" },
+  { label: "Specific Concern", value: "Specific Concern" },
 ];
 
 const bodyParts = [
@@ -57,11 +62,46 @@ const bodyParts = [
   { label: "Leg", value: "leg" },
 ];
 
+const genderOptions = [
+  { label: "Male", value: "male" },
+  { label: "Female", value: "female" },
+  { label: "Other", value: "other" },
+];
+
 const BookAppointment = () => {
   const [form] = Form.useForm<FormValues>();
+  const [bookAppointment, { isLoading }] = useBookAppointmentMutation();
 
-  const onFinish = (values: FormValues) => {
-    console.log("Form Values:", values);
+  const onFinish = async (values: FormValues) => {
+    try {
+      // Format the data to match the API requirements
+      const appointmentData = {
+        patientName: values.name,
+        patientEmail: values.email,
+        patientPhone: `+880${values.phone}`, // Assuming Bangladesh country code
+        patientAge: values.age,
+        patientGender: values.gender,
+        patientAddress: values.address,
+        visitType: values.reasonForVisit,
+        department: values.department,
+        bodyPart: values.bodyPart,
+        date: values.preferredDate.format('YYYY-MM-DD'),
+        timeSlot: values.preferredTime.format('h:mm A'),
+      };
+
+      const response = await bookAppointment(appointmentData).unwrap();
+      
+      if (response.success) {
+        message.success('Appointment booked successfully!');
+        form.resetFields();
+      } else {
+        message.error(response.message || 'Failed to book appointment');
+      }
+    } catch (err: unknown) {
+      const error = err as { data?: { message?: string } };
+      message.error(error.data?.message || 'Failed to book appointment');
+      console.error('Appointment booking error:', err);
+    }
   };
 
   const renderRadioOptions = (options: { label: string; value: string }[]) =>
@@ -79,13 +119,12 @@ const BookAppointment = () => {
 
         <div className="w-full max-w-7xl mx-auto mt-10">
           <div className="flex justify-end">
-             {/* Appointment Form */}   <Image
+            <Image
               src={circle}
               alt="circle"
-              className=""
               width={150}
               height={250}
-              objectFit="cover"
+              style={{ objectFit: "cover" }}
             />
           </div>
          
@@ -114,6 +153,7 @@ const BookAppointment = () => {
                   label="Email"
                   rules={[
                     { required: true, message: "Please input your email!" },
+                    { type: 'email', message: 'Please enter a valid email' }
                   ]}
                 >
                   <CustomInput placeholder="Enter Your Email" />
@@ -127,10 +167,41 @@ const BookAppointment = () => {
                       required: true,
                       message: "Please input your phone number!",
                     },
+                    {
+                      pattern: /^[0-9]{10}$/,
+                      message: "Please enter a valid 10-digit phone number",
+                    }
                   ]}
                   className="w-full col-span-full"
                 >
-                  <CustomInput type="number" placeholder="Enter Your Phone" />
+                  <CustomInput 
+                    type="tel" 
+                    placeholder="Enter Your Phone" 
+                    addonBefore="+880"
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  name="age"
+                  label="Age"
+                  rules={[
+                    { required: true, message: "Please input your age!" },
+                    { type: 'number', min: 0, max: 120, message: "Age must be between 0 and 120" }
+                  ]}
+                >
+                  <CustomInput type="number" placeholder="Enter Your Age" />
+                </Form.Item>
+
+                <Form.Item
+                  name="gender"
+                  label="Gender"
+                  rules={[
+                    { required: true, message: "Please select your gender!" },
+                  ]}
+                >
+                  <Radio.Group className="flex flex-wrap gap-4">
+                    {renderRadioOptions(genderOptions)}
+                  </Radio.Group>
                 </Form.Item>
 
                 <Form.Item
@@ -152,7 +223,9 @@ const BookAppointment = () => {
                   <TimePicker
                     placeholder="--:-- --"
                     className="w-full border border-[#77C4FE] px-4 py-2 text-[16px] bg-[#F1F9FF] text-gray-700 rounded-lg focus:border-[#77C4FE]"
-                    format="HH:mm"
+                    format="h:mm A"
+                    minuteStep={30}
+                    use12Hours={true}
                     suffixIcon={
                       <ClockCircleOutlined style={{ color: "#77C4FE" }} />
                     }
@@ -164,7 +237,10 @@ const BookAppointment = () => {
                   label={<span className="text-lg bg-[#F1F9FF]">Preferred Date</span>}
                   rules={[{ required: true, message: "Please select a date" }]}
                 >
-                  <CustomDatePicker className="bg-[#F1F9FF]" />
+                  <CustomDatePicker 
+                    className="bg-[#F1F9FF]" 
+                    disabledDate={(current: Dayjs) => current && current < dayjs().startOf('day')}
+                  />
                 </Form.Item>
 
                 <Form.Item
@@ -194,15 +270,16 @@ const BookAppointment = () => {
               <div
                 className="w-full relative h-full flex justify-center items-center bg-cover bg-center order-1 md:order-2"
                 style={{ backgroundImage: `url(${aboutBg.src})` }}
-              > <div className="absolute bottom-[59px] left-[117px]">
-             {/* Appointment Form */}   <Image
-              src={circle}
-              alt="circle"
-              className=""
-              width={80}
-              height={80}
-              objectFit="cover"
-            /></div>
+              > 
+                <div className="absolute bottom-[59px] left-[117px]">
+                  <Image
+                    src={circle}
+                    alt="circle"
+                    width={80}
+                    height={80}
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
                 <div className="space-y-3">
                   <div>
                     <h1 className="text-2xl">Contact Info</h1>
@@ -240,9 +317,15 @@ const BookAppointment = () => {
                 {renderRadioOptions(bodyParts)}
               </Radio.Group>
             </Form.Item>
+            
             {/* Submit Button */}
             <Form.Item className="w-full md:w-[30%] mt-10">
-              <CustomLoadingButton className="bg-sky-300" border={false}>
+              <CustomLoadingButton 
+                className="bg-sky-300" 
+                border={false}
+                loading={isLoading}
+               
+              >
                 Book Appointment
               </CustomLoadingButton>
             </Form.Item>
