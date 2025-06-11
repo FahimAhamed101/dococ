@@ -198,7 +198,7 @@ const Register: React.FC = () => {
             </Form.Item>
 
             <Form.Item
-              name="terms"
+             
               valuePropName="checked"
               rules={[
                 {

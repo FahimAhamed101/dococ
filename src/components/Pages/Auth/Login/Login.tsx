@@ -109,11 +109,11 @@ const Login: React.FC = () => {
 
   const passwordRules = [
     { required: true, message: 'Please input your password!' },
-    { min: 8, message: 'Password must be at least 8 characters!' },
-    { pattern: /[A-Z]/, message: 'Must contain at least one uppercase letter!' },
-    { pattern: /[a-z]/, message: 'Must contain at least one lowercase letter!' },
-    { pattern: /[0-9]/, message: 'Must contain at least one number!' },
-    { pattern: /[^A-Za-z0-9]/, message: 'Must contain at least one special character!' },
+  
+   // { pattern: /[A-Z]/, message: 'Must contain at least one uppercase letter!' },
+   // { pattern: /[a-z]/, message: 'Must contain at least one lowercase letter!' },
+   // { pattern: /[0-9]/, message: 'Must contain at least one number!' },
+   // { pattern: /[^A-Za-z0-9]/, message: 'Must contain at least one special character!' },
   ];
 
   return (

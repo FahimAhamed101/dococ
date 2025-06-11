@@ -3,7 +3,7 @@ import MainContainer from "@/components/Shared/MainContainer/MainContainer";
 import CustomBreadcrumb from "@/components/UI/CustomBreadcrumb";
 import CustomInput from "@/components/UI/CustomInput";
 import CustomLoadingButton from "@/components/UI/CustomLoadingButton";
-import { CloseOutlined, HomeOutlined, MailOutlined, UserOutlined, MessageOutlined } from "@ant-design/icons";
+import { CloseOutlined, HomeOutlined, MessageOutlined } from "@ant-design/icons";
 import { Form } from "antd";
 import React from "react";
 import { useChatWithBotMutation } from "@/redux/features/auth/authApi"; // Update the import path
@@ -89,32 +89,8 @@ const ChatBot: React.FC = () => {
                 layout="vertical"
                 className="space-y-4"
               >    
-                <Form.Item
-                  name="name"
-                  label={<span className="font-medium text-gray-700">Your Name</span>}
-                  rules={[{ required: true, message: "Please input your name!" }]}
-                >
-                  <CustomInput
-                    placeholder="Enter your name"
-                    icon={UserOutlined}
-                    className="border-gray-300 hover:border-blue-400 focus:border-blue-500"
-                  />
-                </Form.Item>
-
-                <Form.Item
-                  name="email"
-                  label={<span className="font-medium text-gray-700">Your Email</span>}
-                  rules={[
-                    { required: true, message: "Please input your email!" },
-                    { type: "email", message: "Please enter a valid email!" },
-                  ]}
-                >
-                  <CustomInput
-                    placeholder="Enter your email"
-                    icon={MailOutlined}
-                    className="border-gray-300 hover:border-blue-400 focus:border-blue-500"
-                  />
-                </Form.Item>
+               
+            
 
                 <Form.Item
                   name="message"

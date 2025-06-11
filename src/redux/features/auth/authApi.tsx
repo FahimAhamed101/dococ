@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 interface RegisterResponse {
   message: string;
-  // Add other response fields as needed
 }
 
 interface RegisterRequest {
@@ -10,11 +9,12 @@ interface RegisterRequest {
   lastName: string;
   dateOfBirth: string;
   callingCode: string;
-  phoneNumber: number;
+  phoneNumber: number; // Changed to string for consistency
   address: string;
   email: string;
   password: string;
 }
+
 interface TeamMemberDetailsResponse {
   code: number;
   message: string;
@@ -30,18 +30,17 @@ interface TeamMemberDetailsResponse {
     };
   };
 }
+
 interface LoginResponse {
   code: number;
   message: string;
   data: {
     attributes: {
       user: {
-        // User data fields
         id: string;
         email: string;
         firstName: string;
         lastName: string;
-        // Add other user fields as needed
       };
       tokens: {
         access: {
@@ -56,6 +55,7 @@ interface LoginResponse {
     };
   };
 }
+
 interface UserProfileResponse {
   code: number;
   message: string;
@@ -63,28 +63,49 @@ interface UserProfileResponse {
     attributes: {
       user: {
         id: string;
+        userName: string;
         firstName: string;
         lastName: string;
         fullName: string;
         email: string;
-        dateOfBirth: string;
         profileImage: string;
-        height: { value: number | null; unit: string };
-        weight: { value: number | null; unit: string };
-        gender?: string;
+        dateOfBirth: string | null;
+        gender: string;
+        callingCode: string;
+        phoneNumber: string;
+        address: string;
+        height: { value: string | null; unit: string };
+        weight: { value: string | null; unit: string };
+        medicalCondition: string[];
+        role: string;
+        isProfileCompleted: boolean;
+        chartCredits: number;
+        appointmentCredits: number;
+        createdAt: string;
+        subscription: {
+          subscriptionExpirationDate: string | null;
+          status: string;
+          isSubscriptionTaken: boolean;
+        };
       };
+      securitySettings: {
+        recoveryEmail: string | null;
+        recoveryPhone: string | null;
+        securityQuestion: string | null;
+      };
+      documents: Array<{
+        user: string;
+        title: string;
+        description: string;
+        type: string;
+        files: string[];
+        createdAt: string;
+        id: string;
+      }>;
     };
   };
 }
 
-interface UpdateProfileRequest {
-  firstName?: string;
-  lastName?: string;
-  dateOfBirth?: string;
-  height?: number;
-  weight?: number;
-  gender?: string;
-}
 interface ForgotPasswordResponse {
   code: number;
   message: string;
@@ -99,13 +120,16 @@ interface LoginRequest {
   email: string;
   password: string;
 }
+
 interface LogoutResponse {
   code: number;
   message: string;
 }
+
 interface ForgotPasswordRequest {
   email: string;
 }
+
 interface VerifyEmailRequest {
   email: string;
   code: string;
@@ -114,8 +138,8 @@ interface VerifyEmailRequest {
 interface VerifyEmailResponse {
   code: number;
   message: string;
-  // Add other response fields as needed
 }
+
 interface ResetPasswordRequest {
   email: string;
   password: string;
@@ -125,7 +149,7 @@ interface ResetPasswordResponse {
   code: number;
   message: string;
 }
-// Update your TeamMember interface to be more specific
+
 interface TeamMember {
   id: string;
   firstName: string;
@@ -135,7 +159,7 @@ interface TeamMember {
   specialties: string;
   about: string;
   callingCode: string;
-  phoneNumber: number;
+  phoneNumber: string; // Changed to string for consistency
   email: string;
   profileImage: string;
   media: {
@@ -291,6 +315,7 @@ export const authApi = createApi({
       return headers;
     },
   }),
+  tagTypes: ['Profile'], // Added tagTypes to fix the error
   endpoints: (builder) => ({
     login: builder.mutation<LoginResponse, LoginRequest>({
       query: (credentials) => ({
@@ -308,13 +333,40 @@ export const authApi = createApi({
     }),
     getProfile: builder.query<UserProfileResponse, void>({
       query: () => '/users/self/in',
+      providesTags: ['Profile'],
     }),
-    updateProfile: builder.mutation<UserProfileResponse, UpdateProfileRequest>({
-      query: (body) => ({
+    updateProfile: builder.mutation<UserProfileResponse, FormData>({
+      query: (formData) => ({
         url: '/users/self/update',
-        method: 'PUT',
-        body,
+        method: 'PATCH',
+        body: formData,
       }),
+      invalidatesTags: ['Profile'],
+    }),
+    uploadDocument: builder.mutation<
+      {
+        code: number;
+        message: string;
+        data: {
+          attributes: {
+            user: string;
+            title: string;
+            description: string;
+            type: string;
+            files: string[];
+            createdAt: string;
+            id: string;
+          };
+        };
+      },
+      FormData
+    >({
+      query: (formData) => ({
+        url: '/document',
+        method: 'POST',
+        body: formData,
+      }),
+      invalidatesTags: ['Profile'],
     }),
     logout: builder.mutation<LogoutResponse, void>({
       query: () => ({
@@ -322,36 +374,27 @@ export const authApi = createApi({
         method: 'POST',
       }),
     }),
-  forgotPassword: builder.mutation<ForgotPasswordResponse, ForgotPasswordRequest>({
+    forgotPassword: builder.mutation<ForgotPasswordResponse, ForgotPasswordRequest>({
       query: (email) => ({
         url: '/auth/forgot-password',
         method: 'POST',
-        body: email ,headers: {
-      'Content-Type': 'application/json',
-    },
+        body: { email }, // Fixed to send object
       }),
     }),
-verifyEmail: builder.mutation<VerifyEmailResponse, VerifyEmailRequest>({
-  query: (credentials) => ({
-    url: '/auth/verify-email',
-    method: 'POST',
-    body: credentials,headers: {
-      'Content-Type': 'application/json',
-    },
-  }),
-}),
-resetPassword: builder.mutation<ResetPasswordResponse, ResetPasswordRequest>({
-  query: (credentials) => ({
-    url: '/auth/reset-password',
-    method: 'POST',
-    body: credentials,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }),
-}),
-
-
+    verifyEmail: builder.mutation<VerifyEmailResponse, VerifyEmailRequest>({
+      query: (credentials) => ({
+        url: '/auth/verify-email',
+        method: 'POST',
+        body: credentials,
+      }),
+    }),
+    resetPassword: builder.mutation<ResetPasswordResponse, ResetPasswordRequest>({
+      query: (credentials) => ({
+        url: '/auth/reset-password',
+        method: 'POST',
+        body: credentials,
+      }),
+    }),
     getTeamMembers: builder.query<TeamMembersResponse, { page?: number; limit?: number; email?: string }>({
       query: ({ page = 1, limit = 10, email = '' }) => ({
         url: '/team/member/all',
@@ -364,47 +407,47 @@ resetPassword: builder.mutation<ResetPasswordResponse, ResetPasswordRequest>({
       }),
     }), 
     getTeamMemberDetails: builder.query<TeamMemberDetailsResponse, string>({
-  query: (memberId) => `/team/member/${memberId}`,
-}),
-
-contactUs: builder.mutation<ContactResponse, ContactRequest>({
-  query: (contactData) => ({
-    url: '/contact',
-    method: 'POST',
-    body: contactData,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }),
-}),
-getFaqs: builder.query<FaqResponse, { page?: number; limit?: number }>({
-  query: ({ page = 1, limit = 10 } = {}) => ({
-    url: '/faq',
-    params: {
-      page,
-      limit,
-    },
-  }),
-}),
-chatWithBot: builder.mutation<ChatBotResponse, ChatBotRequest>({
+      query: (memberId) => `/team/member/${memberId}`,
+    }),
+    contactUs: builder.mutation<ContactResponse, ContactRequest>({
+      query: (contactData) => ({
+        url: '/contact',
+        method: 'POST',
+        body: contactData,
+      }),
+    }),
+    getFaqs: builder.query<FaqResponse, { page?: number; limit?: number }>({
+      query: ({ page = 1, limit = 10 } = {}) => ({
+        url: '/faq',
+        params: {
+          page,
+          limit,
+        },
+      }),
+    }),
+    chatWithBot: builder.mutation<ChatBotResponse, ChatBotRequest>({
       query: (body) => ({
         url: '/gemini/conversation',
         method: 'POST',
         body,
-        headers: {
-          'Content-Type': 'application/json',
-        },
       }),
     }),
- 
-    // Add other endpoints as needed here
   }),
 });
 
-// Export all hooks at once
 export const { 
   useLoginMutation, 
   useRegisterMutation,
   useGetProfileQuery,
-  useUpdateProfileMutation,useChatWithBotMutation,useGetFaqsQuery,useLogoutMutation,useContactUsMutation,useForgotPasswordMutation,useVerifyEmailMutation,useResetPasswordMutation,useGetTeamMembersQuery,useGetTeamMemberDetailsQuery
+  useUploadDocumentMutation,
+  useUpdateProfileMutation,
+  useChatWithBotMutation,
+  useGetFaqsQuery,
+  useLogoutMutation,
+  useContactUsMutation,
+  useForgotPasswordMutation,
+  useVerifyEmailMutation,
+  useResetPasswordMutation,
+  useGetTeamMembersQuery,
+  useGetTeamMemberDetailsQuery
 } = authApi;

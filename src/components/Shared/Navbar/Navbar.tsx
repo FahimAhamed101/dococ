@@ -127,7 +127,7 @@ const Navbar = () => {
           </button>
 
           {/* Profile button - responsive sizing */}
-          <button
+        <button
             className="rounded-full overflow-hidden border-2 border-transparent hover:border-sky-300 transition-all"
             onClick={() => setIsModalOpen(true)}
           >
