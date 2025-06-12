@@ -20,7 +20,7 @@ export default function DropdownModal({ isOpen, onClose, setIsLogoutModalOpen })
 
           <button className="w-full text-gray-700 px-4 py-3 flex items-center hover:bg-sky-300 transition-colors">
             <LockOutlined className="mr-3 h-5 w-5" />
-            <span>Change Password</span>
+            <Link href="/change-password"> <span>Change Password</span></Link>
           </button>
 
           <button

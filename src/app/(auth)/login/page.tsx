@@ -5,7 +5,10 @@ export const metadata: Metadata = {
   title: "Login - E-Clinic",
   description: "This is Login page",
 };
-const page = () => {
+const page = () => { 
+  
+
+
   return <Login/>
 }
 
