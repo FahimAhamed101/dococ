@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface RegisterResponse {
   message: string;
@@ -302,46 +302,55 @@ interface ChatBotResponse {
     };
   };
 }
+interface ChangePasswordRequest {
+  oldPassword: string;
+  newPassword: string;
+}
+
+interface ChangePasswordResponse {
+  code: number;
+  message: string;
+}
 
 export const authApi = createApi({
-  reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ 
+  reducerPath: "authApi",
+  baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
     prepareHeaders: (headers) => {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem("accessToken");
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
+        headers.set("Authorization", `Bearer ${token}`);
       }
       return headers;
     },
   }),
-  tagTypes: ['Profile'], // Added tagTypes to fix the error
+  tagTypes: ["Profile"], // Added tagTypes to fix the error
   endpoints: (builder) => ({
     login: builder.mutation<LoginResponse, LoginRequest>({
       query: (credentials) => ({
-        url: '/auth/login',
-        method: 'POST',
+        url: "/auth/login",
+        method: "POST",
         body: credentials,
       }),
     }),
     register: builder.mutation<RegisterResponse, RegisterRequest>({
       query: (credentials) => ({
-        url: '/auth/register',
-        method: 'POST',
+        url: "/auth/register",
+        method: "POST",
         body: credentials,
       }),
     }),
     getProfile: builder.query<UserProfileResponse, void>({
-      query: () => '/users/self/in',
-      providesTags: ['Profile'],
+      query: () => "/users/self/in",
+      providesTags: ["Profile"],
     }),
     updateProfile: builder.mutation<UserProfileResponse, FormData>({
       query: (formData) => ({
-        url: '/users/self/update',
-        method: 'PATCH',
+        url: "/users/self/update",
+        method: "PATCH",
         body: formData,
       }),
-      invalidatesTags: ['Profile'],
+      invalidatesTags: ["Profile"],
     }),
     uploadDocument: builder.mutation<
       {
@@ -362,81 +371,101 @@ export const authApi = createApi({
       FormData
     >({
       query: (formData) => ({
-        url: '/document',
-        method: 'POST',
+        url: "/document",
+        method: "POST",
         body: formData,
       }),
-      invalidatesTags: ['Profile'],
+      invalidatesTags: ["Profile"],
     }),
     logout: builder.mutation<LogoutResponse, void>({
       query: () => ({
-        url: '/auth/logout',
-        method: 'POST',
+        url: "/auth/logout",
+        method: "POST",
       }),
     }),
-    forgotPassword: builder.mutation<ForgotPasswordResponse, ForgotPasswordRequest>({
-      query: (email) => ({
-        url: '/auth/forgot-password',
-        method: 'POST',
-        body: { email }, // Fixed to send object
+    forgotPassword: builder.mutation<
+      ForgotPasswordResponse,
+      ForgotPasswordRequest
+    >({
+      query: (credentials) => ({
+        url: "/auth/forgot-password",
+        method: "POST",
+        body: credentials, // Fixed to send object
       }),
     }),
     verifyEmail: builder.mutation<VerifyEmailResponse, VerifyEmailRequest>({
       query: (credentials) => ({
-        url: '/auth/verify-email',
-        method: 'POST',
+        url: "/auth/verify-email",
+        method: "POST",
         body: credentials,
       }),
     }),
-    resetPassword: builder.mutation<ResetPasswordResponse, ResetPasswordRequest>({
+    resetPassword: builder.mutation<
+      ResetPasswordResponse,
+      ResetPasswordRequest
+    >({
       query: (credentials) => ({
-        url: '/auth/reset-password',
-        method: 'POST',
+        url: "/auth/reset-password",
+        method: "POST",
         body: credentials,
       }),
     }),
-    getTeamMembers: builder.query<TeamMembersResponse, { page?: number; limit?: number; email?: string }>({
-      query: ({ page = 1, limit = 10, email = '' }) => ({
-        url: '/team/member/all',
+    getTeamMembers: builder.query<
+      TeamMembersResponse,
+      { page?: number; limit?: number; email?: string }
+    >({
+      query: ({ page = 1, limit = 10, email = "" }) => ({
+        url: "/team/member/all",
         params: {
-          sortBy: 'createdAt:desc',
+          sortBy: "createdAt:desc",
           email,
           page,
           limit,
         },
       }),
-    }), 
+    }),
     getTeamMemberDetails: builder.query<TeamMemberDetailsResponse, string>({
       query: (memberId) => `/team/member/${memberId}`,
     }),
     contactUs: builder.mutation<ContactResponse, ContactRequest>({
       query: (contactData) => ({
-        url: '/contact',
-        method: 'POST',
+        url: "/contact",
+        method: "POST",
         body: contactData,
       }),
     }),
     getFaqs: builder.query<FaqResponse, { page?: number; limit?: number }>({
       query: ({ page = 1, limit = 10 } = {}) => ({
-        url: '/faq',
+        url: "/faq",
         params: {
           page,
           limit,
         },
       }),
     }),
+    changePassword: builder.mutation<
+      ChangePasswordResponse,
+      ChangePasswordRequest
+    >({
+      query: (credentials) => ({
+        url: "/auth/change-password",
+        method: "POST",
+        body: credentials,
+      }),
+      invalidatesTags: ["Profile"],
+    }),
     chatWithBot: builder.mutation<ChatBotResponse, ChatBotRequest>({
       query: (body) => ({
-        url: '/gemini/conversation',
-        method: 'POST',
+        url: "/gemini/conversation",
+        method: "POST",
         body,
       }),
     }),
   }),
 });
 
-export const { 
-  useLoginMutation, 
+export const {
+  useLoginMutation,
   useRegisterMutation,
   useGetProfileQuery,
   useUploadDocumentMutation,
@@ -449,5 +478,5 @@ export const {
   useVerifyEmailMutation,
   useResetPasswordMutation,
   useGetTeamMembersQuery,
-  useGetTeamMemberDetailsQuery
+  useGetTeamMemberDetailsQuery,useChangePasswordMutation
 } = authApi;

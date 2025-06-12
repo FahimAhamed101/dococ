@@ -5,7 +5,9 @@ import { HomeOutlined } from "@ant-design/icons";
 import {  Pagination, Spin } from "antd";
 import React, { useState } from "react";
 import { useListAppointmentsQuery } from "@/redux/features/auth/appontmentApi";
-
+import notfound from "@/assets/notfound.svg"
+import Link from "next/link";
+import Image from "next/image";
 const MyAppointment: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
@@ -81,9 +83,17 @@ const MyAppointment: React.FC = () => {
           <div className="flex justify-center">
             <div className="w-full max-w-6xl space-y-6">
               {appointments.length === 0 ? (
-                <div className="text-center py-10">
-                  <p className="text-gray-600">No appointments found</p>
-                </div>
+             <section className="w-full min-h-screen px-5 py-10 bg-[#F1F9FF] f">
+      <MainContainer className="text-center flex justify-center">
+        
+        <div>  <h1 className="text-4xl font-semibold mb-6">Sorry,Page not Found!</h1>  
+           <Link href="/" className="text-2xl font-semibold mb-6">Go to Homepage</Link>  
+        <Image src={notfound} alt="lock icon" width={600} height={16} /> </div>
+     
+
+  
+      </MainContainer>
+    </section>
               ) : (
                 appointments.map((appointment) => (
                   <div 

@@ -1,5 +1,5 @@
 "use client";
-import { Form } from "antd";
+import { Form, message } from "antd";
 import { LockOutlined } from "@ant-design/icons";
 import { HiOutlineHome } from "react-icons/hi";
 import CustomBreadcrumb from "@/components/UI/CustomBreadcrumb";
@@ -7,6 +7,9 @@ import CustomInput from "@/components/UI/CustomInput";
 import MainContainer from "@/components/Shared/MainContainer/MainContainer";
 import CustomButton from "@/components/UI/CustomButton";
 import React from "react";
+import { useChangePasswordMutation } from "@/redux/features/auth/authApi";
+import { useRouter } from "next/navigation";
+
 const breadcrumbItems = [
   {
     href: "/",
@@ -22,15 +25,42 @@ const breadcrumbItems = [
   },
 ];
 
+interface ErrorResponse {
+  data?: {
+    message?: string;
+  };
+  message?: string;
+}
+
 const ChangePassword: React.FC = () => {
   const [form] = Form.useForm();
+  const [changePassword, { isLoading }] = useChangePasswordMutation();
+  const router = useRouter();
 
-  const onFinish = (values: {
+  const onFinish = async (values: {
     currentPassword: string;
     newPassword: string;
     confirmPassword: string;
   }) => {
-    console.log(values);
+    try {
+      const response = await changePassword({
+        oldPassword: values.currentPassword,
+        newPassword: values.newPassword,
+      }).unwrap();
+
+      if (response.code === 200) {
+        message.success(response.message || "Password changed successfully");
+        form.resetFields();
+        router.push("/profile");
+      } else {
+        message.error(response.message || "Failed to change password");
+      }
+    } catch (err: unknown) {
+      const error = err as ErrorResponse;
+      message.error(
+        error.data?.message || error.message || "Failed to change password"
+      );
+    }
   };
 
   const validateConfirmPassword = (_: unknown, value: string) => {
@@ -88,6 +118,7 @@ const ChangePassword: React.FC = () => {
               <Form.Item
                 label="Confirm Password"
                 name="confirmPassword"
+                dependencies={['newPassword']}
                 rules={[
                   { required: true, message: "Please confirm your password!" },
                   { validator: validateConfirmPassword },
@@ -100,10 +131,16 @@ const ChangePassword: React.FC = () => {
                 />
               </Form.Item>
               <div className="flex justify-end mt-6 gap-4">
-                <button className="px-8 py-2 border border-gray-400 rounded-xl">
+                <button 
+                  type="button"
+                  onClick={() => router.push("/profile")}
+                  className="px-8 py-2 border border-gray-400 rounded-xl hover:bg-gray-100 transition-colors"
+                >
                   Cancel
                 </button>
-                <CustomButton>Save Changes</CustomButton>
+                <CustomButton htmlType="submit" loading={isLoading}>
+                  Save Changes
+                </CustomButton>
               </div>
             </div>
           </Form>

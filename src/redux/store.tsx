@@ -4,10 +4,10 @@ import { authApi } from './features/auth/authApi';
 import { blogApi } from "./features/blog/blogApi";
 import { appointmentApi } from './features/auth/appontmentApi'; // Fixed path
 import authReducer from "./features/auth/authSlice";
-
+import { infoApi } from './features/info/infoApi';
 export const store = configureStore({
   reducer: {
-    [authApi.reducerPath]: authApi.reducer,
+    [authApi.reducerPath]: authApi.reducer,  [infoApi.reducerPath]: infoApi.reducer,
     auth: authReducer,
     [appointmentApi.reducerPath]: appointmentApi.reducer,
     [blogApi.reducerPath]: blogApi.reducer,
@@ -15,7 +15,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       authApi.middleware,
-      blogApi.middleware,
+      blogApi.middleware,infoApi.middleware,
       appointmentApi.middleware // Added missing middleware
     )
 });
