@@ -8,6 +8,7 @@ import { useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import CustomButton from "@/components/UI/CustomButton";
+import { Spin } from "antd";
 
 
 
@@ -32,7 +33,9 @@ const Blogs = () => {
 
   const { data, isLoading, isError } = useGetBlogsQuery({ page, limit });
 
-  if (isLoading) return <div className="text-center py-10">Loading blogs...</div>;
+  if (isLoading) return   <section className="w-full px-5 py-10 bg-[#F1F9FF] min-h-screen flex justify-center items-center">
+        <Spin size="large" />
+      </section>;
   if (isError) return <div className="text-center py-10">Error loading blogs</div>;
 
   const blogs = data?.data?.attributes?.results || [];

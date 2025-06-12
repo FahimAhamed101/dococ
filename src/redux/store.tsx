@@ -1,16 +1,23 @@
+// src/redux/store.ts
 import { configureStore } from '@reduxjs/toolkit';
 import { authApi } from './features/auth/authApi';
-import { blogApi } from "./features/blog/blogApi"
-import { appointmentApi } from './features/auth/appontmentApi';
+import { blogApi } from "./features/blog/blogApi";
+import { appointmentApi } from './features/auth/appontmentApi'; // Fixed path
 import authReducer from "./features/auth/authSlice";
+
 export const store = configureStore({
   reducer: {
-    [authApi.reducerPath]: authApi.reducer,auth: authReducer,[appointmentApi .reducerPath]: appointmentApi.reducer,
+    [authApi.reducerPath]: authApi.reducer,
+    auth: authReducer,
+    [appointmentApi.reducerPath]: appointmentApi.reducer,
     [blogApi.reducerPath]: blogApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware,blogApi.middleware)
-    
+    getDefaultMiddleware().concat(
+      authApi.middleware,
+      blogApi.middleware,
+      appointmentApi.middleware // Added missing middleware
+    )
 });
 
 export type RootState = ReturnType<typeof store.getState>;

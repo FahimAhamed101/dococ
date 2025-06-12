@@ -26,6 +26,44 @@ interface BookAppointmentResponse {
   };
 }
 
+interface Appointment {
+  id: string;
+  doctor?: string;
+  patientName: string;
+  patientEmail: string;
+  patientPhone: string;
+  patientAge: number;
+  patientGender: string;
+  patientAddress: string;
+  visitType: string;
+  department: string;
+  bodyPart?: string;
+  date: string;
+  timeSlot: string;
+  reason?: string;
+  status: string;
+  isPaid: boolean;
+  appointmentId: string;
+  createdAt: string;
+  paymentDetails: {
+    method: string;
+  };
+}
+
+interface ListAppointmentsResponse {
+  code: number;
+  message: string;
+  data: {
+    attributes: {
+      results: Appointment[];
+      page: number;
+      limit: number;
+      totalPages: number;
+      totalResults: number;
+    };
+  };
+}
+
 export const appointmentApi = createApi({
   reducerPath: 'appointmentApi',
   baseQuery: fetchBaseQuery({ 
@@ -48,7 +86,17 @@ export const appointmentApi = createApi({
       }),
       invalidatesTags: ['Appointment'],
     }),
+    listAppointments: builder.query<ListAppointmentsResponse, { page: number; limit: number }>({
+      query: ({ page, limit }) => ({
+        url: '/appointment/list',
+        params: { page, limit, sortBy: 'createdAt:desc' },
+      }),
+      providesTags: ['Appointment'],
+    }),
   }),
 });
 
-export const { useBookAppointmentMutation } = appointmentApi;
+export const { 
+  useBookAppointmentMutation,
+  useListAppointmentsQuery,
+} = appointmentApi;

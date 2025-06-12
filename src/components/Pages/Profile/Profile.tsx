@@ -292,7 +292,7 @@ const ProfileForm: React.FC = () => {
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://10.0.60.18:6060';
   const imageUrl = profileData?.user?.profileImage?.startsWith('http') 
     ? previewImage
-    : `${backendUrl}/${profileData?.user?.profileImage}`;
+    : `${backendUrl}${profileData?.user?.profileImage}`;
 
   return (
     <section className="min-h-screen px-4 sm:px-6 lg:px-10 py-10">

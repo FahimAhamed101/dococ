@@ -186,7 +186,7 @@ const BookAppointment = () => {
                   label="Age"
                   rules={[
                     { required: true, message: "Please input your age!" },
-                    { type: 'number', min: 0, max: 120, message: "Age must be between 0 and 120" }
+               
                   ]}
                 >
                   <CustomInput type="number" placeholder="Enter Your Age" />

@@ -2,9 +2,19 @@
 import MainContainer from "@/components/Shared/MainContainer/MainContainer";
 import CustomBreadcrumb from "@/components/UI/CustomBreadcrumb";
 import { HomeOutlined } from "@ant-design/icons";
-import React from "react";
+import {  Pagination, Spin } from "antd";
+import React, { useState } from "react";
+import { useListAppointmentsQuery } from "@/redux/features/auth/appontmentApi";
 
 const MyAppointment: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  
+  const { data, isLoading, isError } = useListAppointmentsQuery({
+    page: currentPage,
+    limit: pageSize,
+  });
+
   const breadcrumbItems = [
     {
       href: "/",
@@ -27,56 +37,124 @@ const MyAppointment: React.FC = () => {
     },
   ];
 
+  const handlePageChange = (page: number, pageSize?: number) => {
+    setCurrentPage(page);
+    if (pageSize) {
+      setPageSize(pageSize);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <section className="w-full px-5 py-10 bg-[#F1F9FF] min-h-screen flex justify-center items-center">
+        <Spin size="large" />
+      </section>
+    );
+  }
+
+  if (isError) {
+    return (
+      <section className="w-full px-5 py-10 bg-[#F1F9FF] min-h-screen flex justify-center items-center">
+        <div className="text-red-500 text-lg">Failed to load appointments</div>
+      </section>
+    );
+  }
+
+  const appointments = data?.data?.attributes?.results || [];
+  const pagination = data?.data?.attributes || {
+    page: 1,
+    limit: 5,
+    totalPages: 1,
+    totalResults: 0,
+  };
+
   return (
     <section className="w-full px-5 py-10 bg-[#F1F9FF] min-h-screen">
       <MainContainer className="flex flex-col items-center">
         <div className="w-full max-w-6xl">
-          <CustomBreadcrumb items={breadcrumbItems}  />
+          <CustomBreadcrumb items={breadcrumbItems} />
           
           <h2 className="text-3xl font-semibold text-gray-800 text-center mt-8 mb-10">
             My Appointment
           </h2>
 
           <div className="flex justify-center">
-            <div className="w-full max-w-6xl">
-              <div className="bg-transparent rounded-lg border border-[#77C4FE] p-10 mb-8 shadow-sm">
-                <div className="border-b border-[#77C4FE] pb-4 grid grid-cols-4 ">
-                  <span className="font-medium text-gray-700">Doctor Name:</span>
-                  <span className="text-gray-900">Bashar Islam</span>
+            <div className="w-full max-w-6xl space-y-6">
+              {appointments.length === 0 ? (
+                <div className="text-center py-10">
+                  <p className="text-gray-600">No appointments found</p>
                 </div>
-                <div className="border-b border-[#77C4FE] py-4 grid grid-cols-4 ">
-                  <span className="font-medium text-gray-700">Name:</span>
-                  <span className="text-gray-900">David John</span>
+              ) : (
+                appointments.map((appointment) => (
+                  <div 
+                    key={appointment.id}
+                    className="bg-transparent rounded-lg border border-[#77C4FE] p-10 shadow-sm"
+                  >
+                    <div className="border-b border-[#77C4FE] pb-4 grid grid-cols-4">
+                      <span className="font-medium text-gray-700">Appointment ID:</span>
+                      <span className="text-gray-900 col-span-3">{appointment.appointmentId}</span>
+                    </div>
+                    <div className="border-b border-[#77C4FE] py-4 grid grid-cols-4">
+                      <span className="font-medium text-gray-700">Name:</span>
+                      <span className="text-gray-900">{appointment.patientName}</span>
+                    </div>
+                    <div className="border-b border-[#77C4FE] py-4 grid grid-cols-4">
+                      <span className="font-medium text-gray-700">Email:</span>
+                      <span className="text-gray-900">{appointment.patientEmail}</span>
+                    </div>
+                    <div className="border-b border-[#77C4FE] py-4 grid grid-cols-4">
+                      <span className="font-medium text-gray-700">Phone Number:</span>
+                      <span className="text-gray-900">{appointment.patientPhone}</span>
+                    </div>
+                    <div className="border-b border-[#77C4FE] py-4 grid grid-cols-4">
+                      <span className="font-medium text-gray-700">Address:</span>
+                      <span className="text-gray-900">{appointment.patientAddress}</span>
+                    </div>
+                    <div className="border-b border-[#77C4FE] py-4 grid grid-cols-4">
+                      <span className="font-medium text-gray-700">Reason for Visit:</span>
+                      <span className="text-gray-900">{appointment.visitType}</span>
+                    </div>
+                    <div className="border-b border-[#77C4FE] py-4 grid grid-cols-4">
+                      <span className="font-medium text-gray-700">Department:</span>
+                      <span className="text-gray-900">{appointment.department}</span>
+                    </div>
+                    <div className="border-b border-[#77C4FE] py-4 grid grid-cols-4">
+                      <span className="font-medium text-gray-700">Preferred Time:</span>
+                      <span className="text-gray-900">{appointment.timeSlot}</span>
+                    </div>
+                    <div className="border-b border-[#77C4FE] py-4 grid grid-cols-4">
+                      <span className="font-medium text-gray-700">Preferred Date:</span>
+                      <span className="text-gray-900">
+                        {new Date(appointment.date).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <div className="border-b border-[#77C4FE] py-4 grid grid-cols-4">
+                      <span className="font-medium text-gray-700">Status:</span>
+                      <span className="text-gray-900 capitalize">{appointment.status}</span>
+                    </div>
+                    {appointment.reason && (
+                      <div className="pt-4 grid grid-cols-4">
+                        <span className="font-medium text-gray-700">Additional Reason:</span>
+                        <span className="text-gray-900 col-span-3">{appointment.reason}</span>
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
+
+              {pagination.totalResults > 0 && (
+                <div className="flex justify-center mt-6">
+                  <Pagination
+                    current={currentPage}
+                    pageSize={pageSize}
+                    total={pagination.totalResults}
+                    onChange={handlePageChange}
+                    showSizeChanger
+                    pageSizeOptions={['5', '10', '20', '50']}
+                    showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+                  />
                 </div>
-                <div className="border-b border-[#77C4FE] py-4 grid grid-cols-4 ">
-                  <span className="font-medium text-gray-700">Email:</span>
-                  <span className="text-gray-900">DavidJohn@gmail.com</span>
-                </div>
-                   <div className="border-b border-[#77C4FE] py-4 grid grid-cols-4 ">
-                  <span className="font-medium text-gray-700">Phone Number:</span>
-                  <span className="text-gray-900">313613131</span>
-                </div>
-                   <div className="border-b border-[#77C4FE] py-4 grid grid-cols-4 ">
-                  <span className="font-medium text-gray-700">Address:</span>
-                  <span className="text-gray-900">Dhaka Bangladesh</span>
-                </div>
-                     <div className="border-b border-[#77C4FE] py-4 grid grid-cols-4 ">
-                  <span className="font-medium text-gray-700">Reason for Visit:</span>
-                  <span className="text-gray-900">New Patient </span>
-                </div>
-                     <div className="border-b border-[#77C4FE] py-4 grid grid-cols-4 ">
-                  <span className="font-medium text-gray-700">Department:</span>
-                  <span className="text-gray-900">Neurology </span>
-                </div>
-                 <div className="border-b border-[#77C4FE] py-4 grid grid-cols-4 ">
-                  <span className="font-medium text-gray-700">Preferred Time:</span>
-                  <span className="text-gray-900">08.00 AM</span>
-                </div>
-                 <div className="border-b border-[#77C4FE] py-4 grid grid-cols-4 ">
-                  <span className="font-medium text-gray-700">Preferred Date:</span>
-                  <span className="text-gray-900">12/12/2024</span>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

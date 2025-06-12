@@ -5,6 +5,7 @@ import MainContainer from "@/components/Shared/MainContainer/MainContainer";
 import CustomBreadcrumb from "@/components/UI/CustomBreadcrumb";
 import TeamMemberCard from "./TeamMemberCard";
 import { useGetTeamMembersQuery } from "@/redux/features/auth/authApi"
+import { Spin } from "antd";
 
 const breadcrumbItems = [
   {
@@ -30,17 +31,8 @@ function TeamMembers() {
 
   if (isLoading) {
     return (
-      <section className="w-full px-5 py-10">
-        <MainContainer>
-          <CustomBreadcrumb items={breadcrumbItems} />
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 my-10">
-            {[...Array(4)].map((_, index) => (
-              <div key={index} className="animate-pulse">
-                <div className="h-64 bg-gray-200 rounded-lg"></div>
-              </div>
-            ))}
-          </div>
-        </MainContainer>
+       <section className="w-full px-5 py-10 bg-[#F1F9FF] min-h-screen flex justify-center items-center">
+        <Spin size="large" />
       </section>
     );
   }
